@@ -63,25 +63,34 @@ const FeaturedPost = ({ post, goToPost }: PostListItemProps) => (
       <div className="header-wrapper">
         <Header />
         <div>
-          <Link to={`/${post.slug}`} onClick={() => goToPost(post)}>
+          <Link
+            to={`/${post.author_x.slug}/${post.slug}`}
+            onClick={() => goToPost(post)}
+          >
             <h1 dangerouslySetInnerHTML={{ __html: post.title.rendered }}></h1>
           </Link>
           <span className="author">
             by{' '}
-            <Link to={`author/${post.author_x.slug}`}>
+            <Link to={`/author/${post.author_x.slug}`}>
               {post.author_x.name}
             </Link>
           </span>
         </div>
       </div>
-      <Link to={`/${post.slug}`} onClick={() => goToPost(post)}>
+      <Link
+        to={`/${post.author_x.slug}/${post.slug}`}
+        onClick={() => goToPost(post)}
+      >
         <img
           src={post.featured_img_x.thumb}
           alt={`${post.title.rendered} by ${post.author_x.name}`}
         />
       </Link>
     </div>
-    <Link to={`/${post.slug}`} onClick={() => goToPost(post)}>
+    <Link
+      to={`/${post.author_x.slug}/${post.slug}`}
+      onClick={() => goToPost(post)}
+    >
       <p
         className="excerpt"
         dangerouslySetInnerHTML={{ __html: post.excerpt.rendered }}
@@ -118,21 +127,31 @@ const SCPostListItem = styled.article`
 const PostListItem = ({ post, goToPost }: PostListItemProps) => (
   <SCPostListItem>
     <div className="title">
-      <Link to={`/${post.slug}`} onClick={() => goToPost(post)}>
+      <Link
+        to={`/${post.author_x.slug}/${post.slug}`}
+        onClick={() => goToPost(post)}
+      >
         <h2 dangerouslySetInnerHTML={{ __html: post.title.rendered }}></h2>
       </Link>
       <span>
         {' '}
-        by <Link to={`author/${post.author_x.slug}`}>{post.author_x.name}</Link>
+        by{' '}
+        <Link to={`/author/${post.author_x.slug}`}>{post.author_x.name}</Link>
       </span>
-      <Link to={`/${post.slug}`} onClick={() => goToPost(post)}>
+      <Link
+        to={`/${post.author_x.slug}/${post.slug}`}
+        onClick={() => goToPost(post)}
+      >
         <p
           className="excerpt"
           dangerouslySetInnerHTML={{ __html: post.excerpt.rendered }}
         ></p>
       </Link>
     </div>
-    <Link to={`/${post.slug}`} onClick={() => goToPost(post)}>
+    <Link
+      to={`/${post.author_x.slug}/${post.slug}`}
+      onClick={() => goToPost(post)}
+    >
       <img
         src={post.featured_img_x.thumb}
         alt={`${post.title.rendered} by ${post.author_x.name}`}
@@ -165,6 +184,7 @@ function PostList({ posts, setPosts, history, setPost }: PostListProps) {
   React.useEffect(() => {
     async function loadContent() {
       if (author) {
+        setLoaded(false);
         const { data } = await wordpress.getPostsByAuthor(author);
         setPosts(data);
       }
@@ -197,7 +217,7 @@ function PostList({ posts, setPosts, history, setPost }: PostListProps) {
 
   const goToPost = (post: WordpressPost) => {
     setPost(post);
-    history.push(post.slug);
+    // history.push(`/${post.author_x.slug}/${post.slug}`);
   };
 
   if (!loaded) {
