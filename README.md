@@ -1,6 +1,8 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# min.report (Minority Report) Frontend
 
-## Available Scripts
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app.
+
+## Development
 
 In the project directory, you can run:
 
