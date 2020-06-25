@@ -17,6 +17,10 @@ a:hover {
   color: blue;
 }
 
+main {
+  overflow: hidden;
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
@@ -155,6 +159,11 @@ code {
    * Remove the border on images inside links in IE 10.
    */
 }
+
+.wp-block-embed.aligncenter {
+  text-align: center;
+}
+
 .gutenberg-styles img {
   border-style: none;
   height: auto;
@@ -498,6 +507,9 @@ code {
   max-width: 100% !important;
   vertical-align: middle;
 }
+.gutenberg-styles .aligncenter img {
+  margin: auto;
+}
 .gutenberg-styles img.aligncenter {
   margin: auto;
 }
@@ -572,7 +584,7 @@ code {
 }
 .gutenberg-styles a[href^='http']:after,
 .gutenberg-styles a[href^='ftp']:after {
-  content: ' (' attr(href) ')';
+  /* content: ' (' attr(href) ')'; */
   font-size: 80%;
 }
 .gutenberg-styles a[href$='.jpg']:after,

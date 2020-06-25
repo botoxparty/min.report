@@ -3,6 +3,10 @@ import styled from 'styled-components';
 import wordpress, { WordpressPost } from '../services/wordpress';
 import { useParams, Link } from 'react-router-dom';
 import Header from './Header';
+import useScrollToTop from '../hooks/useScrollToTop';
+import useMetaTags, { resetMetaTags } from 'react-metatags-hook';
+import { MetaTagsConfig } from 'react-metatags-hook/dist/types';
+import watchFootnoteScroll from '../hooks/watchFootnoteScroll';
 
 const SCPost = styled.section`
   min-height: 100vh;
@@ -11,6 +15,8 @@ const SCPost = styled.section`
   .article-head {
     text-align: center;
     margin-top: 2em;
+    z-index: 9999;
+    position: relative;
     h1 {
       font-size: 3em;
       margin-bottom: 0.25em;
@@ -28,9 +34,25 @@ const SCPost = styled.section`
     .wp-block-lazyblock-footnotes {
       font-size: 0.75em;
     }
+    .wp-block-getwid-images-slider__item {
+      transition: transform 500ms;
+      position: relative;
+      &:nth-child(odd) {
+        transform: perspective(600px) rotateY(45deg);
+      }
+      &:nth-child(even) {
+        transform: perspective(600px) rotateY(-45deg);
+      }
+      &:hover {
+        transform: perspective(600px) rotateY(0);
+        z-index: 99999;
+      }
+    }
     p {
       line-height: 1.4;
       margin-bottom: 3.25em;
+      position: relative;
+      z-index: 99;
       + blockquote {
         margin-top: -2.25em;
       }
@@ -42,89 +64,71 @@ const SCPost = styled.section`
       line-height: 1.4;
       border: 0;
       position: relative;
-      &:before {
+      /* &:before {
         content: '”';
         display: block;
         position: absolute;
         left: 0;
         font-size: 3em;
         font-weight: bold;
-      }
+      } */
     }
   }
 `;
 
-function Post() {
-  const [post, setPost] = React.useState({} as WordpressPost);
-  const [loaded, setLoaded] = React.useState(false);
+interface PostProps {
+  post: WordpressPost;
+  setPost: Function;
+}
+
+function Post({ post, setPost }: PostProps) {
+  const [loaded, setLoaded] = React.useState(true);
   const contentRef = React.useRef(null);
   const { slug } = useParams();
 
-  React.useEffect(() => {
-    console.log(contentRef.current);
-    console.log(document.querySelectorAll('a'));
-  }, [post]);
+  useScrollToTop();
 
   React.useEffect(() => {
     async function loadContent() {
-      const { data } = await wordpress.getPost(slug);
-      setPost(data);
-      setLoaded(true);
+      if (!post.id || post.slug !== slug) {
+        setLoaded(false);
+        const { data } = await wordpress.getPost(slug);
+        setPost(data);
+        setLoaded(true);
+      }
     }
 
     loadContent();
   }, [slug]);
 
+  const metaTags: MetaTagsConfig = {
+    title: post.yoast_title,
+    metas: [],
+    links: [],
+    openGraph: {},
+    twitter: {},
+  };
+
+  resetMetaTags();
+  metaTags.metas = post.yoast_meta;
+  useMetaTags(metaTags);
+
   if (!loaded) {
-    return <h1>Loading...</h1>;
+    return (
+      <SCPost>
+        <div className="article-head">
+          <Header />
+          <h1>Loading...</h1>
+        </div>
+      </SCPost>
+    );
   }
-  if (contentRef) {
-    console.log('contentref', contentRef.current);
-  } else {
-    console.log('no ref');
+
+  watchFootnoteScroll();
+
+  if (!post.id) {
+    return <></>;
   }
-
-  setTimeout(() => {
-    const contentBody = document.querySelector('.article-content');
-    const arrayoflinks = Array.from(
-      contentBody ? contentBody.querySelectorAll('a') : []
-    ).filter((lnk: HTMLAnchorElement) => lnk.href.startsWith('applewebdata'));
-
-    console.log(arrayoflinks);
-
-    for (let i = 0; i < arrayoflinks.length; i++) {
-      const curr = arrayoflinks[i];
-      const matching = curr.href.includes('ftnref')
-        ? contentBody?.querySelector(
-            `a[href="${curr.href.replace('ftnref', 'ftn')}"]`
-          )
-        : contentBody?.querySelector(
-            `a[href="${curr.href.replace('ftn', 'ftnref')}"]`
-          );
-
-      curr.addEventListener('click', (e) => {
-        e.preventDefault();
-        if (!matching) {
-          return;
-        }
-        const yOffset = -30;
-        const y =
-          matching.getBoundingClientRect().top + window.pageYOffset + yOffset;
-
-        window.scrollTo({ top: y, behavior: 'smooth' });
-
-        matching.classList.add('fn-active');
-        curr.classList.add('fn-active');
-      });
-
-      curr.addEventListener('blur', (e) => {
-        e.preventDefault();
-        console.log('blurred');
-        arrayoflinks.forEach((link) => link.classList.remove('fn-active'));
-      });
-      console.log(curr, matching);
-    }
-  }, 50);
 
   return (
     <SCPost>

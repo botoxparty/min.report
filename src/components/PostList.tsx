@@ -4,6 +4,9 @@ import wordpress, { WordpressPost } from '../services/wordpress';
 import Header from './Header';
 import media from '../media';
 import { RouteComponentProps, Link, useParams } from 'react-router-dom';
+import useScrollToTop from '../hooks/useScrollToTop';
+import useMetaTags, { resetMetaTags } from 'react-metatags-hook';
+import logo from '../assets/MinorityReport_Logo.jpg';
 
 const SCPostList = styled.section`
   max-width: 1050px;
@@ -11,13 +14,9 @@ const SCPostList = styled.section`
   min-height: 100vh;
 `;
 
-interface PostListProps extends RouteComponentProps {
-  title?: string;
-  author?: boolean;
-}
-
 interface PostListItemProps {
   post: WordpressPost;
+  goToPost: Function;
 }
 
 const SCFeaturedPost = styled.article`
@@ -27,6 +26,7 @@ const SCFeaturedPost = styled.article`
   .site-header-featured-post {
     display: flex;
     align-items: center;
+    padding: 0 1em;
     ${media.max.medium} {
       flex-direction: column;
     }
@@ -35,7 +35,7 @@ const SCFeaturedPost = styled.article`
     }
   }
   .header-wrapper {
-    padding: 0 2em;
+    padding-right: 2em;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -57,13 +57,13 @@ const SCFeaturedPost = styled.article`
   }
 `;
 
-const FeaturedPost = ({ post }: PostListItemProps) => (
+const FeaturedPost = ({ post, goToPost }: PostListItemProps) => (
   <SCFeaturedPost>
     <div className="site-header-featured-post">
       <div className="header-wrapper">
         <Header />
         <div>
-          <Link to={`/${post.slug}`}>
+          <Link to={`/${post.slug}`} onClick={() => goToPost(post)}>
             <h1 dangerouslySetInnerHTML={{ __html: post.title.rendered }}></h1>
           </Link>
           <span className="author">
@@ -74,14 +74,14 @@ const FeaturedPost = ({ post }: PostListItemProps) => (
           </span>
         </div>
       </div>
-      <Link to={`/${post.slug}`}>
+      <Link to={`/${post.slug}`} onClick={() => goToPost(post)}>
         <img
           src={post.featured_img_x.thumb}
           alt={`${post.title.rendered} by ${post.author_x.name}`}
         />
       </Link>
     </div>
-    <Link to={`/${post.slug}`}>
+    <Link to={`/${post.slug}`} onClick={() => goToPost(post)}>
       <p
         className="excerpt"
         dangerouslySetInnerHTML={{ __html: post.excerpt.rendered }}
@@ -115,24 +115,24 @@ const SCPostListItem = styled.article`
   }
 `;
 
-const PostListItem = ({ post }: PostListItemProps) => (
+const PostListItem = ({ post, goToPost }: PostListItemProps) => (
   <SCPostListItem>
     <div className="title">
-      <Link to={`/${post.slug}`}>
+      <Link to={`/${post.slug}`} onClick={() => goToPost(post)}>
         <h2 dangerouslySetInnerHTML={{ __html: post.title.rendered }}></h2>
       </Link>
       <span>
         {' '}
         by <Link to={`author/${post.author_x.slug}`}>{post.author_x.name}</Link>
       </span>
-      <Link to={`/${post.slug}`}>
+      <Link to={`/${post.slug}`} onClick={() => goToPost(post)}>
         <p
           className="excerpt"
           dangerouslySetInnerHTML={{ __html: post.excerpt.rendered }}
         ></p>
       </Link>
     </div>
-    <Link to={`/${post.slug}`}>
+    <Link to={`/${post.slug}`} onClick={() => goToPost(post)}>
       <img
         src={post.featured_img_x.thumb}
         alt={`${post.title.rendered} by ${post.author_x.name}`}
@@ -150,24 +150,66 @@ const SCAuthorTitle = styled.div`
   }
 `;
 
-function PostList({ title }: PostListProps) {
-  const [posts, setPosts] = React.useState([] as Array<WordpressPost>);
+interface PostListProps extends RouteComponentProps {
+  setPost: Function;
+  setPosts: Function;
+  posts: Array<WordpressPost>;
+}
 
+function PostList({ posts, setPosts, history, setPost }: PostListProps) {
   const { author } = useParams();
+  const [loaded, setLoaded] = React.useState(false);
+
+  useScrollToTop();
 
   React.useEffect(() => {
     async function loadContent() {
       if (author) {
         const { data } = await wordpress.getPostsByAuthor(author);
         setPosts(data);
-      } else {
-        const { data } = await wordpress.getPosts();
-        setPosts(data);
       }
+      setLoaded(true);
     }
 
     loadContent();
+
+    if (author) {
+      return () => {
+        setPosts([]);
+      };
+    }
   }, [author]);
+
+  const title =
+    author && posts[0] ? `Author: ${posts[0].author_x.name}` : `Latest`;
+
+  useMetaTags(
+    {
+      title: title + ' - Minority Report',
+      openGraph: {
+        title,
+        image: `${window.location.protocol}//${window.location.host}${logo}`,
+        site_name: 'Minority Report',
+      },
+    },
+    [author, posts.length]
+  );
+
+  const goToPost = (post: WordpressPost) => {
+    setPost(post);
+    history.push(post.slug);
+  };
+
+  if (!loaded) {
+    return (
+      <SCPostList>
+        <SCAuthorTitle>
+          <Header />
+          <h1>Loading...</h1>
+        </SCAuthorTitle>
+      </SCPostList>
+    );
+  }
 
   return (
     <SCPostList>
@@ -181,9 +223,13 @@ function PostList({ title }: PostListProps) {
       )}
       {posts.map((post, index) =>
         index === 0 && !author ? (
-          <FeaturedPost key={post.id} post={post} />
+          <FeaturedPost key={post.id} post={post} goToPost={goToPost} />
         ) : (
-          <PostListItem key={post.id} post={post}></PostListItem>
+          <PostListItem
+            key={post.id}
+            post={post}
+            goToPost={goToPost}
+          ></PostListItem>
         )
       )}
     </SCPostList>

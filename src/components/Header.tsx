@@ -3,14 +3,15 @@ import styled from 'styled-components';
 import logo from '../assets/MinorityReport_Logo.jpg';
 import { Link } from 'react-router-dom';
 const SCHeader = styled(Link)`
+  width: 240px;
+  height: 240px;
+  display: inline-block;
+  margin: auto;
   img {
     width: 240px;
   }
 `;
 
-interface HeaderProps {
-  to: string;
-}
 function Header() {
   return (
     <SCHeader to={'/'}>

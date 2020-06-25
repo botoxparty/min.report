@@ -59,24 +59,7 @@ export interface WordpressPost {
     rendered: string;
   };
   type: string;
-  yoast_meta: {
-    yoast_wpsea_title: string;
-    yoast_wpseo_canonical: string;
-    yoast_wpseo_company_logo: string;
-    yoast_wpseo_company_name: string;
-    yoast_wpseo_company_or_person: 'person' | 'company';
-    yoast_wpseo_facebook_description: string;
-    yoast_wpseo_facebook_image: string;
-    yoast_wpseo_facebook_title: string;
-    yoast_wpseo_facebook_type: string;
-    yoast_wpseo_metadesc: string;
-    yoast_wpseo_person_name: string;
-    yoast_wpseo_social_url: string;
-    yoast_wpseo_title: string;
-    yoast_wpseo_twitter_description: string;
-    yoast_wpseo_twitter_image: string;
-    yoast_wpseo_twitter_title: string;
-    yoast_wpseo_website_name: string;
-  };
+  yoast_meta: Array<any>;
+  yoast_title: string;
   yst_prominent_words: Array<string>;
 }
