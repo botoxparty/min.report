@@ -37,15 +37,34 @@ const SCPost = styled.section`
     .wp-block-getwid-images-slider__item {
       transition: transform 500ms;
       position: relative;
+      figcaption {
+        background: white !important;
+        padding: 0.15em 0.5em;
+        display: inline-block;
+      }
       &:nth-child(odd) {
         transform: perspective(600px) rotateY(45deg);
       }
       &:nth-child(even) {
         transform: perspective(600px) rotateY(-45deg);
       }
+      &:first-of-type {
+        transform: perspective(300px) rotateX(45deg);
+      }
+      /* &:nth-of-type(4) {
+        transform: perspective(600px) rotate(45deg) translateY(-20%)
+          translateZ(-200px);
+      }
+      &:nth-of-type(5) {
+        transform: perspective(600px) rotateY(42deg) rotateX(40deg)
+          translateX(-50%);
+      } */
       &:hover {
         transform: perspective(600px) rotateY(0);
         z-index: 99999;
+        img {
+          box-shadow: 10px 5px 80px 13px rgba(255, 255, 255, 0.5) !important;
+        }
       }
     }
     p {
