@@ -82,6 +82,7 @@ function Footnotes({ citations }: FootnotesProps) {
   const scrollTo = (event: any, id: number) => {
     event.preventDefault();
     setActiveNote(id - 1);
+    setFocused(true);
     const footnote = document.querySelector(`a[href="#footnote-${id}"]`);
     footnote?.classList.add('fn-active');
 
