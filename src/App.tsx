@@ -5,8 +5,6 @@ import styled from 'styled-components';
 import { Route, Switch } from 'react-router-dom';
 import Post from './components/Post';
 import wordpress, { WordpressPost } from './services/wordpress';
-import useMetaTags from 'react-metatags-hook';
-import logo from './assets/MinorityReport_Logo.jpg';
 
 const Disclaimer = styled.div`
   background-color: #fff8dc;

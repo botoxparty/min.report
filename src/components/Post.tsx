@@ -31,9 +31,6 @@ const SCPost = styled.section`
     padding: 1em;
     font-size: 1.1em;
 
-    .fn-active {
-      background: greenyellow !important;
-    }
     .wp-block-lazyblock-footnotes {
       font-size: 0.75em;
     }
@@ -70,6 +67,9 @@ const SCPost = styled.section`
         }
       }
     }
+    cite {
+      display: none;
+    }
     > p {
       line-height: 1.4;
       margin-bottom: 3.25em;
@@ -86,22 +86,6 @@ const SCPost = styled.section`
         }
         ${media.max.medium} {
           padding-left: 2.5em;
-        }
-        cite {
-          position: fixed;
-          bottom: 0;
-          right: 0;
-
-          color: white;
-          z-index: 9999;
-          max-width: 800px;
-          padding: 2em;
-          transform: translateX(100%);
-          transition: transform 500ms;
-          &.active {
-            display: block;
-            transform: translateX(0);
-          }
         }
       }
     }
@@ -177,8 +161,6 @@ function Post({ post, setPost }: PostProps) {
   if (!post.id) {
     return <></>;
   }
-
-  console.log('hey', citations);
 
   return (
     <SCPost>

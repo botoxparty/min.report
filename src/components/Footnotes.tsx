@@ -18,8 +18,9 @@ const SCFootnotes = styled.div<any>`
   z-index: 99999;
   padding: 1.5em;
   transform: translateY(100%);
-  transition: transform 500ms;
+  transition: transform 500ms, opacity 500ms;
   max-width: 100%;
+  opacity: 0;
   ${media.min.medium} {
     width: 500px;
   }
@@ -35,38 +36,72 @@ const SCFootnotes = styled.div<any>`
     props.show &&
     css`
       transform: unset;
+      opacity: 1;
     `}
 `;
 
 interface FootnotesProps {
-  citations: Array<{
-    cite: HTMLElement;
-    anchor: HTMLAnchorElement;
-  }>;
+  citations: Array<HTMLElement>;
 }
 
 function Footnotes({ citations }: FootnotesProps) {
   const [activeNote, setActiveNote] = React.useState<number>();
 
-  React.useEffect(() => {
-    console.log('updating citation listeners', citations);
-    for (let i = 0; i < citations.length; i++) {
-      const note = citations[i];
+  const [show, setShowHide] = React.useState(false);
+  const [focused, setFocused] = React.useState(false);
 
-      note.anchor.addEventListener('click', (e) => {
+  React.useEffect(() => {
+    for (let i = 0; i < citations.length; i++) {
+      const cite = citations[i];
+      const footnoteNumber = i + 1;
+      const newAnchor = document.createElement('a');
+
+      newAnchor.innerText = `[${footnoteNumber}]`;
+
+      const parent = cite.parentNode;
+      if (parent) parent.insertBefore(newAnchor, cite);
+
+      cite.id = 'footnote-' + footnoteNumber;
+      newAnchor.href = '#' + cite.id;
+
+      newAnchor.addEventListener('click', (e) => {
         e.preventDefault();
         setActiveNote(i);
+        setShowHide(true);
+        setFocused(true);
+        newAnchor.classList.add('fn-active');
+      });
+      newAnchor.addEventListener('blur', function () {
+        console.log('blurgin');
+        newAnchor.classList.remove('fn-active');
+        setFocused(false);
       });
     }
   }, [citations]);
 
-  console.log(activeNote);
+  const scrollTo = (event: any, id: number) => {
+    event.preventDefault();
+    setActiveNote(id - 1);
+    const footnote = document.querySelector(`a[href="#footnote-${id}"]`);
+    footnote?.classList.add('fn-active');
 
-  activeNote != undefined && console.log(citations[activeNote]?.cite);
+    footnote?.scrollIntoView({
+      behavior: 'smooth',
+      block: 'center',
+      inline: 'nearest',
+    });
+  };
+
+  const removeFnClass = (id: number) => {
+    const footnote = document.querySelector(`a[href="#footnote-${id}"]`);
+    footnote?.classList.remove('fn-active');
+    setFocused(false);
+  };
+
   return (
-    <SCFootnotes show={activeNote != undefined}>
+    <SCFootnotes show={show}>
       <h4>Notes</h4>
-      <div className="close" onClick={() => setActiveNote(undefined)}>
+      <div className="close" onClick={() => setShowHide(false)}>
         close
       </div>
       <div className="active-note">
@@ -74,13 +109,25 @@ function Footnotes({ citations }: FootnotesProps) {
         <cite
           dangerouslySetInnerHTML={{
             __html:
-              activeNote != undefined
-                ? citations[activeNote]?.cite.innerHTML
-                : '',
+              activeNote != undefined ? citations[activeNote]?.innerHTML : '',
           }}
         ></cite>
       </div>
-      <p>{citations.map((x, i: number) => i + 1).join(', ')}</p>
+      <p>
+        {citations.map((cite, i: number) => (
+          <React.Fragment key={'fn-index-' + i + 1}>
+            <a
+              href={`#${cite.id}`}
+              onBlur={(e) => removeFnClass(i + 1)}
+              onClick={(e) => scrollTo(e, i + 1)}
+              className={focused && activeNote === i ? 'fn-active' : ''}
+            >
+              {i + 1}
+            </a>
+            {i + 1 !== citations.length && `, `}
+          </React.Fragment>
+        ))}
+      </p>
     </SCFootnotes>
   );
 }

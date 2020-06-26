@@ -21,6 +21,9 @@ a {
 a:hover {
   color: #202267;
 }
+.fn-active {
+  background: greenyellow !important;
+}
 
 main {
   overflow: hidden;
