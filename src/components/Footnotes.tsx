@@ -24,6 +24,9 @@ const SCFootnotes = styled.div<any>`
   ${media.min.medium} {
     width: 500px;
   }
+  ${media.max.medium} {
+    left: 0;
+  }
   .close {
     position: absolute;
     top: 1em;

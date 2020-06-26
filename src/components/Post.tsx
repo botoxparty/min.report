@@ -19,9 +19,16 @@ const SCPost = styled.section`
     margin-top: 2em;
     z-index: 9999;
     position: relative;
+    & > a {
+      ${media.max.medium} {
+        width: 150px;
+        height: 150px;
+      }
+    }
     h1 {
       font-size: 3em;
       margin-bottom: 0.25em;
+      padding: 0 1rem;
     }
     img {
       max-width: 100%;
