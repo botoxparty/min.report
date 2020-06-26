@@ -7,6 +7,7 @@ import { RouteComponentProps, Link, useParams } from 'react-router-dom';
 import useScrollToTop from '../hooks/useScrollToTop';
 import useMetaTags, { resetMetaTags } from 'react-metatags-hook';
 import logo from '../assets/MinorityReport_Logo.jpg';
+import moment from 'moment';
 
 const SCPostList = styled.section`
   max-width: 1050px;
@@ -65,6 +66,10 @@ const SCFeaturedPost = styled.article`
       display: block;
       font-size: 1.25em;
     }
+    time {
+      display: block;
+      margin-bottom: 1em;
+    }
   }
   .excerpt {
     padding: 0 1em;
@@ -91,6 +96,7 @@ const FeaturedPost = ({ post, goToPost }: PostListItemProps) => (
               {post.author_x.name}
             </Link>
           </span>
+          <time>{moment(post.date_gmt).format('DD MMMM YYYY')}</time>
         </div>
       </div>
       <Link
@@ -121,6 +127,7 @@ const SCPostListItem = styled.article`
   padding: 0 1em 4em 1em;
   border-bottom: 1px dotted gray;
   align-items: center;
+  position: relative;
   ${media.max.medium} {
     flex-direction: column;
   }
@@ -134,6 +141,11 @@ const SCPostListItem = styled.article`
   }
   .excerpt {
     line-height: 1.4;
+  }
+  time {
+    position: absolute;
+    bottom: 1.5em;
+    right: 2em;
   }
   img {
     max-width: 350px;
@@ -157,6 +169,7 @@ const PostListItem = ({ post, goToPost }: PostListItemProps) => (
         by{' '}
         <Link to={`/author/${post.author_x.slug}`}>{post.author_x.name}</Link>
       </span>
+      <time>{moment(post.date_gmt).format('DD MMMM YYYY')}</time>
       <Link
         to={`/${post.author_x.slug}/${post.slug}`}
         onClick={() => goToPost(post)}
@@ -236,7 +249,6 @@ function PostList({ posts, setPosts, history, setPost }: PostListProps) {
 
   const goToPost = (post: WordpressPost) => {
     setPost(post);
-    // history.push(`/${post.author_x.slug}/${post.slug}`);
   };
 
   if (!loaded) {

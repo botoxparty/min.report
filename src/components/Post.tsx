@@ -9,7 +9,7 @@ import { MetaTagsConfig } from 'react-metatags-hook/dist/types';
 import watchFootnoteScroll from '../hooks/watchFootnoteScroll';
 import media from '../media';
 import Footnotes from './Footnotes';
-
+import moment from 'moment';
 const SCPost = styled.section`
   min-height: 100vh;
   max-width: 1050px;
@@ -25,6 +25,11 @@ const SCPost = styled.section`
     }
     img {
       max-width: 100%;
+    }
+    .author {
+      margin-bottom: 1em;
+      display: block;
+      font-size: 1.25em;
     }
   }
   .article-content {
@@ -123,7 +128,6 @@ interface PostProps {
 function Post({ post, setPost }: PostProps) {
   const [loaded, setLoaded] = React.useState(true);
   const [citations, setCitations] = React.useState([]);
-  const contentRef = React.useRef(null);
   const { slug } = useParams();
 
   useScrollToTop();
@@ -174,11 +178,12 @@ function Post({ post, setPost }: PostProps) {
       <div className="article-head">
         <Header />
         <h1 dangerouslySetInnerHTML={{ __html: post.title.rendered }}></h1>
-        <span ref={contentRef}>
+        <p className="author">
           {' '}
           by{' '}
-          <Link to={`author/${post.author_x.slug}`}>{post.author_x.name}</Link>
-        </span>
+          <Link to={`/author/${post.author_x.slug}`}>{post.author_x.name}</Link>
+        </p>
+        <time>{moment(post.date_gmt).format('DD MMMM YYYY')}</time>
       </div>
       <div
         className="article-content gutenberg-styles"
