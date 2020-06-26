@@ -13,8 +13,13 @@ a {
   text-decoration: none;
 }
 
+.sticky {
+  position: sticky;
+  bottom: 0;
+}
+
 a:hover {
-  color: blue;
+  color: #202267;
 }
 
 main {
@@ -360,7 +365,7 @@ code {
 .gutenberg-styles div:first-line,
 .gutenberg-styles blockquote:first-line,
 .gutenberg-styles li:first-line {
-  background: transparent !important;
+  background: transparent;
   box-shadow: none !important;
   text-shadow: none !important;
 }

@@ -7,6 +7,8 @@ import useScrollToTop from '../hooks/useScrollToTop';
 import useMetaTags, { resetMetaTags } from 'react-metatags-hook';
 import { MetaTagsConfig } from 'react-metatags-hook/dist/types';
 import watchFootnoteScroll from '../hooks/watchFootnoteScroll';
+import media from '../media';
+import Footnotes from './Footnotes';
 
 const SCPost = styled.section`
   min-height: 100vh;
@@ -27,7 +29,8 @@ const SCPost = styled.section`
   }
   .article-content {
     padding: 1em;
-    font-size: 1.25em;
+    font-size: 1.1em;
+
     .fn-active {
       background: greenyellow !important;
     }
@@ -67,13 +70,39 @@ const SCPost = styled.section`
         }
       }
     }
-    p {
+    > p {
       line-height: 1.4;
       margin-bottom: 3.25em;
       position: relative;
       z-index: 99;
       + blockquote {
-        margin-top: -2.25em;
+        margin-top: -3.3em;
+        padding-left: 4em;
+        border: 0;
+        color: #202267;
+        margin-bottom: 0.3em;
+        p {
+          margin-bottom: 0;
+        }
+        ${media.max.medium} {
+          padding-left: 2.5em;
+        }
+        cite {
+          position: fixed;
+          bottom: 0;
+          right: 0;
+
+          color: white;
+          z-index: 9999;
+          max-width: 800px;
+          padding: 2em;
+          transform: translateX(100%);
+          transition: transform 500ms;
+          &.active {
+            display: block;
+            transform: translateX(0);
+          }
+        }
       }
     }
     .wp-block-image {
@@ -102,6 +131,7 @@ interface PostProps {
 
 function Post({ post, setPost }: PostProps) {
   const [loaded, setLoaded] = React.useState(true);
+  const [citations, setCitations] = React.useState([]);
   const contentRef = React.useRef(null);
   const { slug } = useParams();
 
@@ -115,6 +145,7 @@ function Post({ post, setPost }: PostProps) {
         setPost(data);
         setLoaded(true);
       }
+      watchFootnoteScroll(setCitations);
     }
 
     loadContent();
@@ -143,11 +174,11 @@ function Post({ post, setPost }: PostProps) {
     );
   }
 
-  watchFootnoteScroll();
-
   if (!post.id) {
     return <></>;
   }
+
+  console.log('hey', citations);
 
   return (
     <SCPost>
@@ -164,6 +195,7 @@ function Post({ post, setPost }: PostProps) {
         className="article-content gutenberg-styles"
         dangerouslySetInnerHTML={{ __html: post.content.rendered }}
       ></div>
+      <Footnotes citations={citations} />
     </SCPost>
   );
 }

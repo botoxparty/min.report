@@ -30,8 +30,13 @@ const SCFeaturedPost = styled.article`
     ${media.max.medium} {
       flex-direction: column;
     }
+    a {
+      width: 80%;
+    }
     img {
       max-width: 100%;
+      object-fit: cover;
+      height: 100%;
     }
   }
   .header-wrapper {
