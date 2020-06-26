@@ -31,6 +31,13 @@ const SCPost = styled.section`
     padding: 1em;
     font-size: 1.1em;
 
+    figure.aligncenter {
+      ${media.max.tablet} {
+        width: calc(100% + 2em);
+        margin-left: -1em;
+      }
+    }
+
     .wp-block-lazyblock-footnotes {
       font-size: 0.75em;
     }

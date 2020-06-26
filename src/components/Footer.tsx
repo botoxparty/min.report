@@ -1,6 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import com from '../assets/CoM_Secondary_A_White.png';
+import media from '../media';
 const SCFooter = styled.footer`
   background: black;
   color: white;
@@ -13,6 +14,9 @@ const SCFooter = styled.footer`
     display: flex;
     justify-content: center;
     align-items: center;
+    ${media.max.medium} {
+      flex-direction: column-reverse;
+    }
     img {
       height: 30px;
       margin-right: 1em;

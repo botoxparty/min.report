@@ -31,16 +31,27 @@ const SCFeaturedPost = styled.article`
       flex-direction: column;
     }
     a {
-      width: 80%;
+      ${media.min.medium} {
+        width: 80%;
+      }
     }
     img {
-      max-width: 100%;
-      object-fit: cover;
-      height: 100%;
+      ${media.max.medium} {
+        width: calc(100% + 2em);
+        margin-left: -1em;
+      }
+
+      ${media.min.medium} {
+        max-width: 100%;
+        object-fit: cover;
+        height: 100%;
+      }
     }
   }
   .header-wrapper {
-    padding-right: 2em;
+    ${media.min.medium} {
+      padding-right: 2em;
+    }
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -110,6 +121,9 @@ const SCPostListItem = styled.article`
   padding: 0 1em 4em 1em;
   border-bottom: 1px dotted gray;
   align-items: center;
+  ${media.max.medium} {
+    flex-direction: column;
+  }
   .title {
     flex: 1;
     text-align: left;
