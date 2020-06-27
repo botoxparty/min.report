@@ -12,7 +12,9 @@ a {
   color: black;
   text-decoration: none;
 }
-
+* {
+  box-sizing: border-box;
+}
 .sticky {
   position: sticky;
   bottom: 0;

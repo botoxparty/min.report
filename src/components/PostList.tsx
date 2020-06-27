@@ -123,19 +123,24 @@ const FeaturedPost = ({ post, goToPost }: PostListItemProps) => (
 
 const SCPostListItem = styled.article`
   display: flex;
-  margin: 4em 0;
+  margin: 4em 0 0 0;
+  ${media.max.medium} {
+    margin: 2em 0 0 0;
+    padding-bottom: 2em;
+  }
   padding: 0 1em 4em 1em;
-  border-bottom: 1px dotted gray;
   align-items: center;
   position: relative;
-  ${media.max.medium} {
-    flex-direction: column;
-  }
+  flex-direction: row;
+  width: 100%;
+  border-bottom: 1px dotted gray;
   .title {
     flex: 1;
     text-align: left;
     padding-right: 1em;
+    width: 100%;
     h2 {
+      margin-top: 0;
       margin-bottom: 0.25em;
     }
   }
@@ -143,14 +148,12 @@ const SCPostListItem = styled.article`
     line-height: 1.4;
   }
   time {
-    position: absolute;
-    bottom: 1.5em;
-    right: 2em;
   }
   img {
     max-width: 350px;
     ${media.max.medium} {
       max-width: 150px;
+      display: none;
     }
   }
 `;
@@ -168,8 +171,9 @@ const PostListItem = ({ post, goToPost }: PostListItemProps) => (
         {' '}
         by{' '}
         <Link to={`/author/${post.author_x.slug}`}>{post.author_x.name}</Link>
+        {' - '}
+        <time>{moment(post.date_gmt).format('DD MMMM YYYY')}</time>
       </span>
-      <time>{moment(post.date_gmt).format('DD MMMM YYYY')}</time>
       <Link
         to={`/${post.author_x.slug}/${post.slug}`}
         onClick={() => goToPost(post)}
@@ -201,6 +205,17 @@ const SCAuthorTitle = styled.div`
   }
 `;
 
+const SCOlderPosts = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  article {
+    box-sizing: border-box;
+    ${media.min.large} {
+      flex-direction: column;
+      width: 50%;
+    }
+  }
+`;
 interface PostListProps extends RouteComponentProps {
   setPost: Function;
   setPosts: Function;
@@ -262,6 +277,8 @@ function PostList({ posts, setPosts, history, setPost }: PostListProps) {
     );
   }
 
+  const featuredPost = posts[0];
+
   return (
     <SCPostList>
       {author && posts.length > 0 && (
@@ -272,17 +289,22 @@ function PostList({ posts, setPosts, history, setPost }: PostListProps) {
           </SCAuthorTitle>
         </>
       )}
-      {posts.map((post, index) =>
-        index === 0 && !author ? (
-          <FeaturedPost key={post.id} post={post} goToPost={goToPost} />
-        ) : (
-          <PostListItem
-            key={post.id}
-            post={post}
-            goToPost={goToPost}
-          ></PostListItem>
-        )
+      {!author && featuredPost && (
+        <FeaturedPost post={featuredPost} goToPost={goToPost} />
       )}
+      <SCOlderPosts>
+        {posts.map((post, index) =>
+          index === 0 && !author ? (
+            <></>
+          ) : (
+            <PostListItem
+              key={post.id}
+              post={post}
+              goToPost={goToPost}
+            ></PostListItem>
+          )
+        )}
+      </SCOlderPosts>
     </SCPostList>
   );
 }

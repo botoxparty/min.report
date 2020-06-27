@@ -75,7 +75,6 @@ function Footnotes({ citations }: FootnotesProps) {
         newAnchor.classList.add('fn-active');
       });
       newAnchor.addEventListener('blur', function () {
-        console.log('blurgin');
         newAnchor.classList.remove('fn-active');
         setFocused(false);
       });
