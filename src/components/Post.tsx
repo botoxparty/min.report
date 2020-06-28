@@ -132,6 +132,7 @@ const SCPost = styled.section`
         margin-bottom: 0.3em;
         p {
           margin-bottom: 0;
+          display: inline;
         }
         ${media.max.medium} {
           padding-left: 2.5em;
