@@ -1,7 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import wordpress, { WordpressPost } from '../services/wordpress';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, RouteComponentProps } from 'react-router-dom';
 import Header from './Header';
 import useScrollToTop from '../hooks/useScrollToTop';
 import useMetaTags, { resetMetaTags } from 'react-metatags-hook';
@@ -10,6 +10,8 @@ import watchFootnoteScroll from '../hooks/watchFootnoteScroll';
 import media from '../media';
 import Footnotes from './Footnotes';
 import moment from 'moment';
+var ReactGA = require('react-ga');
+
 const SCPost = styled.section`
   min-height: 100vh;
   max-width: 1050px;
@@ -176,12 +178,12 @@ const SCPost = styled.section`
   }
 `;
 
-interface PostProps {
+interface PostProps extends RouteComponentProps {
   post: WordpressPost;
   setPost: Function;
 }
 
-function Post({ post, setPost }: PostProps) {
+function Post({ post, setPost, history }: PostProps) {
   const [loaded, setLoaded] = React.useState(true);
   const [citations, setCitations] = React.useState([]);
   const { slug } = useParams();
@@ -197,6 +199,9 @@ function Post({ post, setPost }: PostProps) {
         setLoaded(true);
       }
       watchFootnoteScroll(setCitations);
+      setTimeout(() => {
+        ReactGA.pageview(history.location.pathname);
+      }, 50);
     }
 
     loadContent();

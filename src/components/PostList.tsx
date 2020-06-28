@@ -5,9 +5,10 @@ import Header from './Header';
 import media from '../media';
 import { RouteComponentProps, Link, useParams } from 'react-router-dom';
 import useScrollToTop from '../hooks/useScrollToTop';
-import useMetaTags, { resetMetaTags } from 'react-metatags-hook';
+import useMetaTags from 'react-metatags-hook';
 import logo from '../assets/MinorityReport_Logo.jpg';
 import moment from 'moment';
+var ReactGA = require('react-ga');
 
 const SCPostList = styled.section`
   max-width: 1050px;
@@ -230,30 +231,11 @@ interface PostListProps extends RouteComponentProps {
   posts: Array<WordpressPost>;
 }
 
-function PostList({ posts, setPosts, history, setPost }: PostListProps) {
+function PostList({ posts, setPosts, setPost, history }: PostListProps) {
   const { author } = useParams();
   const [loaded, setLoaded] = React.useState(false);
 
   useScrollToTop();
-
-  React.useEffect(() => {
-    async function loadContent() {
-      if (author) {
-        setLoaded(false);
-        const { data } = await wordpress.getPostsByAuthor(author);
-        setPosts(data);
-      }
-      setLoaded(true);
-    }
-
-    loadContent();
-
-    if (author) {
-      return () => {
-        setPosts([]);
-      };
-    }
-  }, [author]);
 
   const title =
     author && posts[0] ? `Author: ${posts[0].author_x.name}` : `Latest`;
@@ -269,6 +251,28 @@ function PostList({ posts, setPosts, history, setPost }: PostListProps) {
     },
     [author, posts.length]
   );
+
+  React.useEffect(() => {
+    async function loadContent() {
+      if (author) {
+        setLoaded(false);
+        const { data } = await wordpress.getPostsByAuthor(author);
+        setPosts(data);
+      }
+      setLoaded(true);
+      setTimeout(() => {
+        ReactGA.pageview(history.location.pathname);
+      }, 50);
+    }
+
+    loadContent();
+
+    if (author) {
+      return () => {
+        setPosts([]);
+      };
+    }
+  }, [author]);
 
   const goToPost = (post: WordpressPost) => {
     setPost(post);
@@ -303,7 +307,7 @@ function PostList({ posts, setPosts, history, setPost }: PostListProps) {
       <SCOlderPosts>
         {posts.map((post, index) =>
           index === 0 && !author ? (
-            <></>
+            <React.Fragment key={post.id}></React.Fragment>
           ) : (
             <PostListItem
               key={post.id}
