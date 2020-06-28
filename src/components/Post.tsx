@@ -4,12 +4,13 @@ import wordpress, { WordpressPost } from '../services/wordpress';
 import { useParams, Link, RouteComponentProps } from 'react-router-dom';
 import Header from './Header';
 import useScrollToTop from '../hooks/useScrollToTop';
-import useMetaTags, { resetMetaTags } from 'react-metatags-hook';
+import useMetaTags from 'react-metatags-hook';
 import { MetaTagsConfig } from 'react-metatags-hook/dist/types';
 import watchFootnoteScroll from '../hooks/watchFootnoteScroll';
 import media from '../media';
 import Footnotes from './Footnotes';
 import moment from 'moment';
+import { decode } from '../helpers/helpers';
 var ReactGA = require('react-ga');
 
 const SCPost = styled.section`
@@ -166,14 +167,6 @@ const SCPost = styled.section`
       line-height: 1.4;
       border: 0;
       position: relative;
-      /* &:before {
-        content: '”';
-        display: block;
-        position: absolute;
-        left: 0;
-        font-size: 3em;
-        font-weight: bold;
-      } */
     }
   }
 `;
@@ -201,23 +194,21 @@ function Post({ post, setPost, history }: PostProps) {
       watchFootnoteScroll(setCitations);
       setTimeout(() => {
         ReactGA.pageview(history.location.pathname);
-      }, 50);
+      }, 200);
     }
 
     loadContent();
   }, [slug]);
 
   const metaTags: MetaTagsConfig = {
-    title: post.yoast_title,
-    metas: [],
+    title: decode(post.yoast_title),
+    metas: post.yoast_meta,
     links: [],
     openGraph: {},
     twitter: {},
   };
 
-  resetMetaTags();
-  metaTags.metas = post.yoast_meta;
-  useMetaTags(metaTags);
+  useMetaTags(metaTags, [post.id]);
 
   if (!loaded) {
     return (

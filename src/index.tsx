@@ -15,7 +15,7 @@ ReactDOM.render(
   document.getElementById('root')
 );
 
-ReactGA.initialize('UA-160443890-1');
+ReactGA.initialize('UA-160443890-1', {});
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
