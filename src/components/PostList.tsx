@@ -124,10 +124,6 @@ const FeaturedPost = ({ post, goToPost }: PostListItemProps) => (
 const SCPostListItem = styled.article`
   display: flex;
   margin: 4em 0 0 0;
-  ${media.max.medium} {
-    margin: 2em 0 0 0;
-    padding-bottom: 2em;
-  }
   padding: 0 1em 4em 1em;
   align-items: center;
   position: relative;
@@ -137,7 +133,7 @@ const SCPostListItem = styled.article`
   .title {
     flex: 1;
     text-align: left;
-    padding-right: 1em;
+    padding-right: 2em;
     width: 100%;
     h2 {
       margin-top: 0;
@@ -154,6 +150,17 @@ const SCPostListItem = styled.article`
     ${media.max.medium} {
       max-width: 150px;
       display: none;
+    }
+  }
+  ${media.min.large} {
+    .title {
+      flex: unset;
+      padding-right: 0;
+    }
+    .image {
+      display: flex;
+      align-items: center;
+      flex: 1;
     }
   }
 `;
@@ -185,6 +192,7 @@ const PostListItem = ({ post, goToPost }: PostListItemProps) => (
       </Link>
     </div>
     <Link
+      className="image"
       to={`/${post.author_x.slug}/${post.slug}`}
       onClick={() => goToPost(post)}
     >
