@@ -205,7 +205,10 @@ function Post({ post, setPost, history }: PostProps) {
     metas: post.yoast_meta,
     links: [],
     openGraph: {},
-    twitter: {},
+    twitter: {
+      card: 'summary',
+      title: 'min.report | Minority Report',
+    },
   };
 
   useMetaTags(metaTags, [post.id]);
