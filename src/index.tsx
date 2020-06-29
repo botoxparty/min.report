@@ -17,7 +17,6 @@ ReactDOM.render(
 
 ReactGA.initialize('UA-160443890-1', {
   debug: true,
-  standardImplementation: true,
 });
 
 // If you want your app to work offline and load faster, you can change
