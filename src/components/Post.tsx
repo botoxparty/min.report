@@ -135,7 +135,8 @@ const SCPost = styled.section`
           display: inline;
         }
         ${media.max.medium} {
-          padding-left: 2.5em;
+          padding: 1.5em;
+          margin-right: 0;
         }
       }
     }

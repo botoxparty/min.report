@@ -134,8 +134,10 @@ const SCPostListItem = styled.article`
   .title {
     flex: 1;
     text-align: left;
-    padding-right: 2em;
     width: 100%;
+    ${media.min.medium} {
+      padding-right: 2em;
+    }
     h2 {
       margin-top: 0;
       margin-bottom: 0.25em;
