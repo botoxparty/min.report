@@ -125,11 +125,11 @@ const SCPost = styled.section`
       position: relative;
       z-index: 99;
       + blockquote {
-        margin-top: -3.3em;
+        margin-top: -3.1em;
         padding-left: 4em;
         border: 0;
         color: #202267;
-        margin-bottom: 0.3em;
+        margin-bottom: 0;
         p {
           margin-bottom: 0;
           display: inline;
