@@ -21,6 +21,9 @@ const SCFootnotes = styled.div<any>`
   transition: transform 500ms, opacity 500ms;
   max-width: 100%;
   opacity: 0;
+  cite {
+    font-style: normal;
+  }
   ${media.min.medium} {
     width: 500px;
   }
@@ -104,9 +107,9 @@ function Footnotes({ citations }: FootnotesProps) {
   return (
     <SCFootnotes show={show}>
       <h4>Notes</h4>
-      <div className="close" onClick={() => setShowHide(false)}>
+      <button className="close" onClick={() => setShowHide(false)}>
         close
-      </div>
+      </button>
       <div className="active-note">
         <span>[{activeNote != undefined && activeNote + 1}] </span>
         <cite
