@@ -268,11 +268,15 @@ function Post({ post, setPost, history }: PostProps) {
       <div className="article-head">
         <Header />
         <h1 dangerouslySetInnerHTML={{ __html: post.title.rendered }}></h1>
-        <p className="author">
-          {' '}
-          by{' '}
-          <Link to={`/author/${post.author_x.slug}`}>{post.author_x.name}</Link>
-        </p>
+        {post.author_x.slug !== 'thinktank' && (
+          <p className="author">
+            {' '}
+            by{' '}
+            <Link to={`/author/${post.author_x.slug}`}>
+              {post.author_x.name}
+            </Link>
+          </p>
+        )}
         <time>{moment(post.date_gmt).format('DD MMMM YYYY')}</time>
       </div>
       <div

@@ -91,12 +91,14 @@ const FeaturedPost = ({ post, goToPost }: PostListItemProps) => (
           >
             <h1 dangerouslySetInnerHTML={{ __html: post.title.rendered }}></h1>
           </Link>
-          <span className="author">
-            by{' '}
-            <Link to={`/author/${post.author_x.slug}`}>
-              {post.author_x.name}
-            </Link>
-          </span>
+          {post.author_x.slug !== 'thinktank' && (
+            <span className="author">
+              by{' '}
+              <Link to={`/author/${post.author_x.slug}`}>
+                {post.author_x.name}
+              </Link>
+            </span>
+          )}
           <time>{moment(post.date_gmt).format('DD MMMM YYYY')}</time>
         </div>
       </div>
@@ -178,10 +180,16 @@ const PostListItem = ({ post, goToPost }: PostListItemProps) => (
         <h2 dangerouslySetInnerHTML={{ __html: post.title.rendered }}></h2>
       </Link>
       <span>
-        {' '}
-        by{' '}
-        <Link to={`/author/${post.author_x.slug}`}>{post.author_x.name}</Link>
-        {' - '}
+        {post.author_x.slug !== 'thinktank' && (
+          <>
+            {' '}
+            by{' '}
+            <Link to={`/author/${post.author_x.slug}`}>
+              {post.author_x.name}
+            </Link>
+            {' - '}
+          </>
+        )}
         <time>{moment(post.date_gmt).format('DD MMMM YYYY')}</time>
       </span>
       <Link
