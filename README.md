@@ -1,6 +1,10 @@
-# min.report (Minority Report) Frontend
+# min.report Frontend
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app.
+[![Minority Report Logo](https://github.com/botoxparty/min.report/blob/main/src/assets/MinorityReport_Logo.jpg?raw=true)](https://min.report)
+
+## Styling
+
+Styles are managed with [styled-components](https://styled-components.com/). Using a custom implementation of gutenberg.css
 
 ## Development
 
@@ -30,6 +34,8 @@ Your app is ready to be deployed!
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
 ### `yarn eject`
+
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app and has not been ejected yet.
 
 **Note: this is a one-way operation. Once you `eject`, you can’t go back!**
 

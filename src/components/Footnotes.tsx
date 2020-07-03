@@ -24,6 +24,9 @@ const SCFootnotes = styled.div<any>`
   cite {
     font-style: normal;
   }
+  .fn-active {
+    background: greenyellow !important;
+  }
   ${media.min.medium} {
     width: 500px;
   }

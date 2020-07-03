@@ -11,12 +11,32 @@ import media from '../media';
 import Footnotes from './Footnotes';
 import moment from 'moment';
 import { decode } from '../helpers/helpers';
+import gutenbergCSS, { galleryCSS, customGutenbergCSS } from './gutenbergCSS';
+
 var ReactGA = require('react-ga');
 
 const SCPost = styled.section`
+  ${gutenbergCSS}
   min-height: 100vh;
   max-width: 1050px;
   margin: auto;
+  a {
+    &:hover {
+      color: #202267;
+    }
+    &:after {
+      display: none;
+    }
+  }
+  blockquote {
+    p {
+      line-height: 1.4;
+    }
+  }
+
+  .fn-active {
+    background: greenyellow !important;
+  }
   .article-head {
     text-align: center;
     margin-top: 2em;
@@ -31,6 +51,7 @@ const SCPost = styled.section`
     h1 {
       font-size: 3em;
       margin-bottom: 0.25em;
+      margin-top: 0.8em;
       padding: 0 1rem;
     }
     img {
@@ -40,169 +61,16 @@ const SCPost = styled.section`
       margin-bottom: 1em;
       display: block;
       font-size: 1.25em;
+      a {
+        text-decoration: none;
+      }
     }
   }
   .article-content {
     padding: 3em 1em 1em 1em;
     font-size: 1.1em;
 
-    .wp-block-image {
-      figure.aligncenter {
-        ${media.max.tablet} {
-          width: calc(100% + 2em);
-          margin-left: -1em;
-        }
-      }
-    }
-
-    .wp-block-quote.is-style-large {
-      font-size: 1.6em;
-      font-style: italic;
-      margin-top: -1em;
-      padding-bottom: 1em;
-      padding-top: 0;
-      p {
-        margin-bottom: 1em;
-      }
-      cite {
-        text-align: right;
-        display: block;
-        font-size: 0.7em;
-        margin-top: 0.5em;
-      }
-    }
-    figure.wp-block-embed.is-type-video {
-      padding-bottom: 1rem;
-      ${media.max.large} {
-        margin: 0;
-      }
-      figcaption {
-        margin-top: 1rem;
-      }
-      .wp-block-embed__wrapper {
-        position: relative;
-        overflow: hidden;
-        iframe {
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          border: 0;
-        }
-      }
-      &.wp-embed-aspect-16-9 {
-        .wp-block-embed__wrapper {
-          padding-top: 56.25%;
-        }
-      }
-      &.wp-embed-aspect-4-3 {
-        .wp-block-embed__wrapper {
-          padding-top: 71.25%;
-        }
-      }
-    }
-
-    .has-text-align-center {
-      text-align: center;
-    }
-    .small-video {
-    }
-
-    .wp-block-lazyblock-footnotes {
-      font-size: 0.75em;
-    }
-    .wp-block-getwid-images-slider__item {
-      transition: transform 500ms;
-      position: relative;
-      figcaption {
-        background: white !important;
-        padding: 0.15em 0.5em;
-        display: inline-block;
-      }
-      &:nth-child(odd) {
-        transform: perspective(600px) rotateY(45deg);
-      }
-      &:nth-child(even) {
-        transform: perspective(600px) rotateY(-45deg);
-      }
-      &:first-of-type {
-        transform: perspective(300px) rotateX(45deg);
-      }
-      /* &:nth-of-type(4) {
-        transform: perspective(600px) rotate(45deg) translateY(-20%)
-          translateZ(-200px);
-      }
-      &:nth-of-type(5) {
-        transform: perspective(600px) rotateY(42deg) rotateX(40deg)
-          translateX(-50%);
-      } */
-      &:hover {
-        transform: perspective(600px) rotateY(0);
-        z-index: 99999;
-        img {
-          box-shadow: 10px 5px 80px 13px rgba(255, 255, 255, 0.5) !important;
-        }
-      }
-    }
-    p cite,
-    blockquote:not(.is-style-large) cite {
-      display: none;
-    }
-    > p {
-      line-height: 1.4;
-      margin-bottom: 3.25rem;
-      position: relative;
-      z-index: 99;
-      + blockquote {
-        margin-top: -3.1em;
-        padding-left: 4em;
-        border: 0;
-        color: #202267;
-        margin-bottom: 0;
-        p {
-          margin-bottom: 0;
-          display: inline;
-        }
-        ${media.max.medium} {
-          padding: 1.5em;
-          margin-right: 0;
-        }
-      }
-    }
-    h2 {
-      font-size: 2rem;
-      clear: both;
-      margin-bottom: 2.25rem;
-      border-bottom: 2px solid;
-      padding-bottom: 1rem;
-      padding-top: 1rem;
-    }
-    .wp-block-image {
-      margin-bottom: 3.25em;
-      ${media.min.large} {
-        figure.alignleft {
-          display: inline;
-          float: left;
-          max-width: 500px;
-        }
-        figure.alignright {
-          display: inline;
-          float: right;
-          max-width: 500px;
-        }
-      }
-    }
-    .wp-block-embed-instagram.aligncenter {
-      blockquote {
-        margin: auto !important;
-      }
-    }
-    pre {
-      line-height: 1.4;
-      border: 0;
-      position: relative;
-    }
+    ${customGutenbergCSS}
   }
 `;
 
