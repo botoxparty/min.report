@@ -3,11 +3,17 @@ import styled from 'styled-components';
 import wordpress, { WordpressPost } from '../services/wordpress';
 import Header from './Header';
 import media from '../media';
-import { RouteComponentProps, Link, useParams } from 'react-router-dom';
+import {
+  RouteComponentProps,
+  Link,
+  useParams,
+  Redirect,
+} from 'react-router-dom';
 import useScrollToTop from '../hooks/useScrollToTop';
 import useMetaTags from 'react-metatags-hook';
 import logo from '../assets/MinorityReport_Logo.jpg';
 import moment from 'moment';
+import qs from 'query-string';
 var ReactGA = require('react-ga');
 
 const SCPostList = styled.section`
@@ -241,7 +247,13 @@ interface PostListProps extends RouteComponentProps {
   posts: Array<WordpressPost>;
 }
 
-function PostList({ posts, setPosts, setPost, history }: PostListProps) {
+function PostList({
+  posts,
+  setPosts,
+  setPost,
+  history,
+  location,
+}: PostListProps) {
   const { author } = useParams();
   const [loaded, setLoaded] = React.useState(false);
 
@@ -297,6 +309,12 @@ function PostList({ posts, setPosts, setPost, history }: PostListProps) {
         </SCAuthorTitle>
       </SCPostList>
     );
+  }
+
+  const query = qs.parse(location.search);
+  if (query.preview) {
+    console.log(query);
+    return <Redirect to={`preview/preview/?preview_id=${query.p}`}></Redirect>;
   }
 
   const featuredPost = posts[0];

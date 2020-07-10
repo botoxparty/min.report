@@ -11,7 +11,8 @@ import media from '../media';
 import Footnotes from './Footnotes';
 import moment from 'moment';
 import { decode } from '../helpers/helpers';
-import gutenbergCSS, { galleryCSS, customGutenbergCSS } from './gutenbergCSS';
+import gutenbergCSS, { customGutenbergCSS } from './gutenbergCSS';
+import qs from 'query-string';
 
 var ReactGA = require('react-ga');
 
@@ -79,7 +80,7 @@ interface PostProps extends RouteComponentProps {
   setPost: Function;
 }
 
-function Post({ post, setPost, history }: PostProps) {
+function Post({ post, setPost, history, location }: PostProps) {
   const [loaded, setLoaded] = React.useState(true);
   const [citations, setCitations] = React.useState([]);
   const { slug } = useParams();
@@ -100,8 +101,24 @@ function Post({ post, setPost, history }: PostProps) {
       }, 200);
     }
 
-    loadContent();
-  }, [slug]);
+    async function loadPreview(id: string) {
+      if (!post.id) {
+        setLoaded(false);
+        const { data } = await wordpress.getPostPreview(id);
+        setPost(data);
+        setLoaded(true);
+      }
+      watchFootnoteScroll(setCitations);
+    }
+
+    const search = qs.parse(location.search);
+
+    if (search.preview_id) {
+      loadPreview(search.preview_id as string);
+    } else {
+      loadContent();
+    }
+  }, [slug, location.search]);
 
   const metaTags: MetaTagsConfig = {
     title: decode(post.yoast_title),

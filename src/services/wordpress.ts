@@ -11,10 +11,14 @@ const getPostsByAuthor = (author: string) =>
 const getPost = (path: string) =>
   http.get(`${WP_URL}/wp/v2/post_x?slug=${path}`);
 
+const getPostPreview = (id: string) =>
+  http.get(`${WP_URL}/wp/v2/preview_x?preview_id=${id}`);
+
 export default {
   getPosts,
   getPost,
   getPostsByAuthor,
+  getPostPreview,
 };
 
 export interface WordpressPost {
