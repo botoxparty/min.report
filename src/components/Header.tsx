@@ -1,6 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import logo from '../assets/MinorityReport_Logo.jpg';
+import logo from '../assets/MinorityReport_Logo.png';
 import { Link } from 'react-router-dom';
 const SCHeader = styled(Link)`
   width: 240px;
