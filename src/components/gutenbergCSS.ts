@@ -529,6 +529,7 @@ export const imagesCSS = css`
     figure.aligncenter {
       display: flex;
       justify-content: center;
+      flex-direction: column;
       ${media.max.tablet} {
         width: calc(100% + 2em);
         margin-left: -1em;
