@@ -62,9 +62,7 @@ export default css`
   img {
     border-style: none;
     object-fit: contain;
-    ${media.max.tablet} {
-      height: 100%;
-    }
+    height: auto;
   }
   button,
   input,
