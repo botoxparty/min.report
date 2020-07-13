@@ -96,6 +96,7 @@ function Post({ post, setPost, history, location }: PostProps) {
         setLoaded(true);
       }
       watchFootnoteScroll(setCitations);
+      (window as any).prerenderReady = true;
       setTimeout(() => {
         ReactGA.pageview(history.location.pathname);
       }, 200);

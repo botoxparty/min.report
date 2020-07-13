@@ -282,6 +282,7 @@ function PostList({
         setPosts(data);
       }
       setLoaded(true);
+      (window as any).prerenderReady = true;
       setTimeout(() => {
         ReactGA.pageview(history.location.pathname);
       }, 50);
