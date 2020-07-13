@@ -270,6 +270,10 @@ function PostList({
         image: `${window.location.protocol}//${window.location.host}${logo}`,
         site_name: 'Minority Report',
       },
+      twitter: {
+        card: 'summary',
+        title: title + ' - Minority Report',
+      },
     },
     [author, posts.length]
   );
