@@ -1,15 +1,18 @@
 import React from 'react';
 import PostList from './components/PostList';
 import Footer from './components/Footer';
-import styled from 'styled-components';
 import { Route, Switch } from 'react-router-dom';
 import Post from './components/Post';
 import wordpress, { WordpressPost } from './services/wordpress';
+import Marquee from './components/Marquee';
+import styled from 'styled-components';
+import media from './media';
 
-const Disclaimer = styled.div`
-  background-color: #fff8dc;
-  padding: 0.25em;
-  text-align: center;
+const Main = styled.main`
+  ${media.max.tablet} {
+    padding-top: 52px;
+  }
+  padding-top: 34px;
 `;
 
 function App() {
@@ -29,15 +32,15 @@ function App() {
   }, []);
 
   return (
-    <main>
-      <Disclaimer role="alert">
-        Some people may find the contents challenging as they reference adult
-        themes. Viewer discretion is advised.
-      </Disclaimer>
+    <Main>
+      <Route
+        path='/'
+        render={(props) => <Marquee currentPost={currentPost} {...props} />}
+      ></Route>
       <Switch>
         <Route
           exact
-          path="/"
+          path='/'
           render={(props) => (
             <PostList
               setPosts={setPosts}
@@ -49,7 +52,7 @@ function App() {
         />
         <Route
           exact
-          path="/author/:author"
+          path='/author/:author'
           render={(props) => (
             <PostList
               {...props}
@@ -61,14 +64,14 @@ function App() {
         />
         <Route
           exact
-          path="/:author/:slug"
+          path='/:author/:slug'
           render={(props) => (
             <Post {...props} post={currentPost} setPost={setCurrentPost} />
           )}
         />
       </Switch>
       <Footer />
-    </main>
+    </Main>
   );
 }
 

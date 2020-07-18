@@ -86,7 +86,9 @@ function Post({ post, setPost, history, location }: PostProps) {
   const { slug } = useParams();
 
   useScrollToTop();
-
+  React.useEffect(() => {
+    return () => setPost({});
+  }, []);
   React.useEffect(() => {
     async function loadContent() {
       if (!post.id || post.slug !== slug) {
@@ -137,7 +139,7 @@ function Post({ post, setPost, history, location }: PostProps) {
   if (!loaded) {
     return (
       <SCPost>
-        <div className="article-head">
+        <div className='article-head'>
           <Header />
           <h1>Loading...</h1>
         </div>
@@ -151,11 +153,11 @@ function Post({ post, setPost, history, location }: PostProps) {
 
   return (
     <SCPost>
-      <div className="article-head">
+      <div className='article-head'>
         <Header />
         <h1 dangerouslySetInnerHTML={{ __html: post.title.rendered }}></h1>
         {post.author_x.slug !== 'thinktank' && (
-          <p className="author">
+          <p className='author'>
             {' '}
             by{' '}
             <Link to={`/author/${post.author_x.slug}`}>
@@ -166,7 +168,7 @@ function Post({ post, setPost, history, location }: PostProps) {
         <time>{moment(post.date_gmt).format('DD MMMM YYYY')}</time>
       </div>
       <div
-        className="article-content gutenberg-styles"
+        className='article-content gutenberg-styles'
         dangerouslySetInnerHTML={{ __html: post.content.rendered }}
       ></div>
       <Footnotes citations={citations} />
