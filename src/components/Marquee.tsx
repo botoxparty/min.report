@@ -2,6 +2,8 @@ import { useScrollPosition } from '@n8tb1t/use-scroll-position';
 import * as React from 'react';
 import styled, { css } from 'styled-components';
 import { Link } from 'react-router-dom';
+import logo from '../assets/MinorityReport_Logo.png';
+
 const SCMarquee = styled.header<any>`
   top: 0;
   position: fixed;
@@ -38,6 +40,11 @@ const SCMarquee = styled.header<any>`
         display: flex;
         align-items: center;
         padding-left: 1em;
+        img {
+          max-height: 32px;
+          max-width: 32px;
+          margin-left: 0.5em;
+        }
       }
     }
     .post-title {
@@ -82,7 +89,12 @@ function Marquee({ currentPost, history }: any) {
         .querySelector('.article-head')
         ?.getBoundingClientRect();
 
+      const featuredPost = document
+        .querySelector('.site-header-featured-post')
+        ?.getBoundingClientRect();
+
       if (articleHead) height += articleHead.height + articleHead.y;
+      else if (featuredPost) height += featuredPost.height + featuredPost.y;
 
       if (height - 100 < 0) {
         setShowOnScroll(true);
@@ -93,8 +105,10 @@ function Marquee({ currentPost, history }: any) {
     [showOnScroll, history.location.pathname]
   );
 
+  const isFullscreen = !!document.querySelector('.full-screen');
+
   return (
-    <SCMarquee flip={showOnScroll}>
+    <SCMarquee flip={showOnScroll || isFullscreen}>
       <Disclaimer className='side-a' role='alert'>
         Some people may find the contents challenging as they reference adult
         themes. Viewer discretion is advised.
@@ -113,6 +127,7 @@ function Marquee({ currentPost, history }: any) {
           )}
           <Link className='logo' to='/'>
             min.report
+            <img src={logo} alt='Minority Report Crest by Hana Earles' />
           </Link>
         </div>
       </div>

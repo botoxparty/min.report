@@ -21,6 +21,14 @@ const SCPost = styled.section`
   min-height: 100vh;
   max-width: 1050px;
   margin: auto;
+  .full-screen video {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    background-color: black !important;
+  }
   a {
     &:hover {
       color: #202267;
@@ -151,22 +159,26 @@ function Post({ post, setPost, history, location }: PostProps) {
     return <></>;
   }
 
+  const isFullscreen = !!document.querySelector('.full-screen');
+
   return (
     <SCPost>
-      <div className='article-head'>
-        <Header />
-        <h1 dangerouslySetInnerHTML={{ __html: post.title.rendered }}></h1>
-        {post.author_x.slug !== 'thinktank' && (
-          <p className='author'>
-            {' '}
-            by{' '}
-            <Link to={`/author/${post.author_x.slug}`}>
-              {post.author_x.name}
-            </Link>
-          </p>
-        )}
-        <time>{moment(post.date_gmt).format('DD MMMM YYYY')}</time>
-      </div>
+      {!isFullscreen && (
+        <div className='article-head'>
+          <Header />
+          <h1 dangerouslySetInnerHTML={{ __html: post.title.rendered }}></h1>
+          {post.author_x.slug !== 'thinktank' && (
+            <p className='author'>
+              {' '}
+              by{' '}
+              <Link to={`/author/${post.author_x.slug}`}>
+                {post.author_x.name}
+              </Link>
+            </p>
+          )}
+          <time>{moment(post.date_gmt).format('DD MMMM YYYY')}</time>
+        </div>
+      )}
       <div
         className='article-content gutenberg-styles'
         dangerouslySetInnerHTML={{ __html: post.content.rendered }}
