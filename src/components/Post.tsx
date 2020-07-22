@@ -13,6 +13,8 @@ import moment from 'moment';
 import { decode } from '../helpers/helpers';
 import gutenbergCSS, { customGutenbergCSS } from './gutenbergCSS';
 import qs from 'query-string';
+//@ts-ignore
+import InnerHTML from 'dangerously-set-html-content';
 
 var ReactGA = require('react-ga');
 
@@ -179,10 +181,10 @@ function Post({ post, setPost, history, location }: PostProps) {
           <time>{moment(post.date_gmt).format('DD MMMM YYYY')}</time>
         </div>
       )}
-      <div
+      <InnerHTML
         className='article-content gutenberg-styles'
-        dangerouslySetInnerHTML={{ __html: post.content.rendered }}
-      ></div>
+        html={post.content.rendered}
+      />
       <Footnotes citations={citations} />
     </SCPost>
   );
