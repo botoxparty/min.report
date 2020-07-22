@@ -166,7 +166,6 @@ export default css`
   div:first-line,
   blockquote:first-line,
   li:first-line {
-    background: transparent !important;
     box-shadow: none !important;
     text-shadow: none !important;
   }
