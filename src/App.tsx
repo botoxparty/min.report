@@ -7,6 +7,7 @@ import wordpress, { WordpressPost } from './services/wordpress';
 import Marquee from './components/Marquee';
 import styled from 'styled-components';
 import media from './media';
+import Error from './components/Error';
 
 const Main = styled.main`
   ${media.max.tablet} {
@@ -16,7 +17,7 @@ const Main = styled.main`
 `;
 
 function App() {
-  const [currentPost, setCurrentPost] = React.useState({} as WordpressPost);
+  const [currentPost, setCurrentPost] = React.useState();
   const [posts, setPosts] = React.useState([] as Array<WordpressPost>);
   const [authorPosts, setAuthorPosts] = React.useState(
     [] as Array<WordpressPost>
@@ -69,8 +70,8 @@ function App() {
             <Post {...props} post={currentPost} setPost={setCurrentPost} />
           )}
         />
+        <Route exact path='/404' render={(props) => <Error {...props} />} />
       </Switch>
-      <Footer />
     </Main>
   );
 }

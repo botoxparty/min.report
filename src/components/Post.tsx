@@ -2,12 +2,10 @@ import * as React from 'react';
 import styled from 'styled-components';
 import wordpress, { WordpressPost } from '../services/wordpress';
 import { useParams, Link, RouteComponentProps } from 'react-router-dom';
-import Header from './Header';
 import useScrollToTop from '../hooks/useScrollToTop';
 import useMetaTags from 'react-metatags-hook';
 import { MetaTagsConfig } from 'react-metatags-hook/dist/types';
 import watchFootnoteScroll from '../hooks/watchFootnoteScroll';
-import media from '../media';
 import Footnotes from './Footnotes';
 import moment from 'moment';
 import { decode } from '../helpers/helpers';
@@ -15,6 +13,8 @@ import gutenbergCSS, { customGutenbergCSS } from './gutenbergCSS';
 import qs from 'query-string';
 //@ts-ignore
 import InnerHTML from 'dangerously-set-html-content';
+import ArticleHead from './ArticleHead';
+import Footer from './Footer';
 
 var ReactGA = require('react-ga');
 
@@ -28,7 +28,7 @@ const SCPost = styled.section`
     left: 0;
     width: 100%;
     height: 100%;
-    position: fixed;
+    /* position: fixed; */
     background-color: black !important;
   }
   a {
@@ -48,35 +48,7 @@ const SCPost = styled.section`
   .fn-active {
     background: greenyellow !important;
   }
-  .article-head {
-    text-align: center;
-    margin-top: 2em;
-    z-index: 9999;
-    position: relative;
-    & > a {
-      ${media.max.medium} {
-        width: 150px;
-        height: 150px;
-      }
-    }
-    h1 {
-      font-size: 3em;
-      margin-bottom: 0.25em;
-      margin-top: 0.8em;
-      padding: 0 1rem;
-    }
-    img {
-      max-width: 100%;
-    }
-    .author {
-      margin-bottom: 1em;
-      display: block;
-      font-size: 1.25em;
-      a {
-        text-decoration: none;
-      }
-    }
-  }
+
   .article-content {
     padding: 3em 1em 1em 1em;
     font-size: 1.1em;
@@ -86,26 +58,36 @@ const SCPost = styled.section`
 `;
 
 interface PostProps extends RouteComponentProps {
-  post: WordpressPost;
+  post?: WordpressPost;
   setPost: Function;
 }
 
 function Post({ post, setPost, history, location }: PostProps) {
-  const [loaded, setLoaded] = React.useState(true);
+  const [, setLoaded] = React.useState(true);
   const [citations, setCitations] = React.useState([]);
   const { slug } = useParams();
 
   useScrollToTop();
   React.useEffect(() => {
-    return () => setPost({});
+    return () => setPost(null);
   }, []);
   React.useEffect(() => {
     async function loadContent() {
-      if (!post.id || post.slug !== slug) {
+      if (!post || post.slug !== slug) {
         setLoaded(false);
-        const { data } = await wordpress.getPost(slug);
-        setPost(data);
-        setLoaded(true);
+        try {
+          const { data } = await wordpress.getPost(slug);
+          setPost(data);
+          setLoaded(true);
+        } catch (e) {
+          console.log(e.response.status);
+          const { status } = e.response;
+          if (status === 404) {
+            history.push('/404');
+          } else {
+            history.push('/500');
+          }
+        }
       }
       watchFootnoteScroll(setCitations);
       (window as any).prerenderReady = true;
@@ -115,7 +97,7 @@ function Post({ post, setPost, history, location }: PostProps) {
     }
 
     async function loadPreview(id: string) {
-      if (!post.id) {
+      if (!post) {
         setLoaded(false);
         const { data } = await wordpress.getPostPreview(id);
         setPost(data);
@@ -133,60 +115,58 @@ function Post({ post, setPost, history, location }: PostProps) {
     }
   }, [slug, location.search]);
 
-  const metaTags: MetaTagsConfig = {
-    title: decode(post.yoast_title),
-    metas: post.yoast_meta,
-    links: [],
-    openGraph: {},
-    twitter: {
-      card: 'summary',
-      title: 'min.report | Minority Report',
-    },
-  };
+  const metaTags: MetaTagsConfig = post
+    ? {
+        title: decode(post.yoast_title) + ' - min.report',
+        metas: post.yoast_meta,
+        links: [],
+        openGraph: {},
+        twitter: {
+          card: 'summary',
+          title: 'min.report | Minority Report',
+        },
+      }
+    : {};
 
-  useMetaTags(metaTags, [post.id]);
+  useMetaTags(metaTags, [post]);
 
-  if (!loaded) {
-    return (
-      <SCPost>
-        <div className='article-head'>
-          <Header />
-          <h1>Loading...</h1>
-        </div>
-      </SCPost>
-    );
-  }
-
-  if (!post.id) {
+  if (!post) {
     return <></>;
   }
 
   const isFullscreen = !!document.querySelector('.full-screen');
 
   return (
-    <SCPost>
-      {!isFullscreen && (
-        <div className='article-head'>
-          <Header />
-          <h1 dangerouslySetInnerHTML={{ __html: post.title.rendered }}></h1>
-          {post.author_x.slug !== 'thinktank' && (
-            <p className='author'>
-              {' '}
-              by{' '}
-              <Link to={`/author/${post.author_x.slug}`}>
-                {post.author_x.name}
-              </Link>
-            </p>
-          )}
-          <time>{moment(post.date_gmt).format('DD MMMM YYYY')}</time>
-        </div>
-      )}
-      <InnerHTML
-        className='article-content gutenberg-styles'
-        html={post.content.rendered}
-      />
-      <Footnotes citations={citations} />
-    </SCPost>
+    <>
+      <SCPost>
+        {!isFullscreen && (
+          <ArticleHead
+            title={
+              <h1
+                dangerouslySetInnerHTML={{ __html: post.title?.rendered }}
+              ></h1>
+            }
+          >
+            {post.author_x.slug !== 'thinktank' && (
+              <p className='author'>
+                {' '}
+                by{' '}
+                <Link to={`/author/${post.author_x.slug}`}>
+                  {post.author_x.name}
+                </Link>
+              </p>
+            )}
+            <time>{moment(post.date_gmt).format('DD MMMM YYYY')}</time>
+          </ArticleHead>
+        )}
+        <InnerHTML
+          className='article-content gutenberg-styles'
+          html={post.content.rendered}
+        />
+        <Footnotes citations={citations} />
+      </SCPost>
+      <Footer />
+    </>
   );
 }
 

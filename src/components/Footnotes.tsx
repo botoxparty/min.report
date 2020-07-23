@@ -37,6 +37,10 @@ const SCFootnotes = styled.div<any>`
     position: absolute;
     top: 1em;
     right: 1em;
+    background: lightgray;
+    border: 1px dotted gray;
+    border-radius: 2px;
+    cursor: pointer;
   }
   h4 {
     margin-top: 0;
@@ -110,10 +114,10 @@ function Footnotes({ citations }: FootnotesProps) {
   return (
     <SCFootnotes show={show}>
       <h4>Notes</h4>
-      <button className="close" onClick={() => setShowHide(false)}>
+      <button className='close' onClick={() => setShowHide(false)}>
         close
       </button>
-      <div className="active-note">
+      <div className='active-note'>
         <span>[{activeNote != undefined && activeNote + 1}] </span>
         <cite
           dangerouslySetInnerHTML={{

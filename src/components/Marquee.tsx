@@ -3,6 +3,7 @@ import * as React from 'react';
 import styled, { css } from 'styled-components';
 import { Link } from 'react-router-dom';
 import logo from '../assets/MinorityReport_Logo.png';
+import useWindowSize from '../hooks/useWindowResize';
 
 const SCMarquee = styled.header<any>`
   top: 0;
@@ -24,11 +25,12 @@ const SCMarquee = styled.header<any>`
   .side-a {
     transform: rotateX(0deg) rotateY(0deg) translateZ(20px);
     z-index: 1;
+    min-height: 49px;
   }
   .side-b {
     transform: rotateX(-90deg) rotateY(0deg) translateZ(20px);
     background: white;
-    border-bottom: 1px solid black;
+    border-bottom: 1px dotted gray;
     display: flex;
     align-items: center;
     .contents {
@@ -49,6 +51,7 @@ const SCMarquee = styled.header<any>`
     }
     .post-title {
       flex: 1;
+      text-align: right;
       h1 {
         margin: 0;
         padding: 0;
@@ -80,42 +83,64 @@ const Disclaimer = styled.div`
 
 function Marquee({ currentPost, history }: any) {
   const [showOnScroll, setShowOnScroll] = React.useState(false);
+  const marqueeRef = React.useRef(null);
 
-  useScrollPosition(
-    ({ prevPos, currPos }) => {
-      let height = 0;
+  useScrollPosition(() => {
+    let height = 0;
 
-      const articleHead = document
-        .querySelector('.article-head')
-        ?.getBoundingClientRect();
+    const articleHead = document
+      .querySelector('.article-head')
+      ?.getBoundingClientRect();
 
-      const featuredPost = document
-        .querySelector('.site-header-featured-post')
-        ?.getBoundingClientRect();
+    const featuredPost = document
+      .querySelector('.site-header-featured-post')
+      ?.getBoundingClientRect();
 
-      if (articleHead) height += articleHead.height + articleHead.y;
-      else if (featuredPost) height += featuredPost.height + featuredPost.y;
+    if (articleHead) height += articleHead.height + articleHead.y;
+    else if (featuredPost) height += featuredPost.height + featuredPost.y;
 
-      if (height - 100 < 0) {
-        setShowOnScroll(true);
-      } else {
-        setShowOnScroll(false);
-      }
-    },
-    [showOnScroll, history.location.pathname]
-  );
+    if (height - 100 < 0) {
+      setShowOnScroll(true);
+    } else {
+      setShowOnScroll(false);
+    }
+  }, [showOnScroll, history.location.pathname]);
+
+  function getMarqueeHeight() {
+    const current = marqueeRef.current;
+
+    if (current) {
+      const sideA: HTMLElement = current['children'][0];
+      const sideB: HTMLElement = current['children'][1];
+
+      const marqueeHeight = showOnScroll
+        ? sideB.offsetHeight
+        : sideA.offsetHeight;
+
+      document.documentElement.style.setProperty(
+        '--marquee-height',
+        marqueeHeight + 'px'
+      );
+    }
+  }
+
+  useWindowSize(getMarqueeHeight);
 
   const isFullscreen = !!document.querySelector('.full-screen');
 
   return (
-    <SCMarquee flip={showOnScroll || isFullscreen}>
+    <SCMarquee ref={marqueeRef} flip={showOnScroll || isFullscreen}>
       <Disclaimer className='side-a' role='alert'>
         Some people may find the contents challenging as they reference adult
         themes. Viewer discretion is advised.
       </Disclaimer>
       <div className='side-b'>
         <div className='contents'>
-          {currentPost.id && (
+          <Link className='logo' to='/'>
+            min.report
+            <img src={logo} alt='Minority Report Crest by Hana Earles' />
+          </Link>
+          {currentPost?.id && (
             <div className='post-title'>
               <h1
                 dangerouslySetInnerHTML={{ __html: currentPost.title.rendered }}
@@ -125,10 +150,6 @@ function Marquee({ currentPost, history }: any) {
               </Link>
             </div>
           )}
-          <Link className='logo' to='/'>
-            min.report
-            <img src={logo} alt='Minority Report Crest by Hana Earles' />
-          </Link>
         </div>
       </div>
     </SCMarquee>

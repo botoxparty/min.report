@@ -14,6 +14,7 @@ import useMetaTags from 'react-metatags-hook';
 import logo from '../assets/MinorityReport_Logo.jpg';
 import moment from 'moment';
 import qs from 'query-string';
+import Footer from './Footer';
 var ReactGA = require('react-ga');
 
 const SCPostList = styled.section`
@@ -87,8 +88,8 @@ const SCFeaturedPost = styled.article`
 
 const FeaturedPost = ({ post, goToPost }: PostListItemProps) => (
   <SCFeaturedPost>
-    <div className="site-header-featured-post">
-      <div className="header-wrapper">
+    <div className='site-header-featured-post'>
+      <div className='header-wrapper'>
         <Header />
         <div>
           <Link
@@ -98,7 +99,7 @@ const FeaturedPost = ({ post, goToPost }: PostListItemProps) => (
             <h1 dangerouslySetInnerHTML={{ __html: post.title.rendered }}></h1>
           </Link>
           {post.author_x.slug !== 'thinktank' && (
-            <span className="author">
+            <span className='author'>
               by{' '}
               <Link to={`/author/${post.author_x.slug}`}>
                 {post.author_x.name}
@@ -123,7 +124,7 @@ const FeaturedPost = ({ post, goToPost }: PostListItemProps) => (
       onClick={() => goToPost(post)}
     >
       <p
-        className="excerpt"
+        className='excerpt'
         dangerouslySetInnerHTML={{ __html: post.excerpt.rendered }}
       ></p>
     </Link>
@@ -178,7 +179,7 @@ const SCPostListItem = styled.article`
 
 const PostListItem = ({ post, goToPost }: PostListItemProps) => (
   <SCPostListItem>
-    <div className="title">
+    <div className='title'>
       <Link
         to={`/${post.author_x.slug}/${post.slug}`}
         onClick={() => goToPost(post)}
@@ -203,13 +204,13 @@ const PostListItem = ({ post, goToPost }: PostListItemProps) => (
         onClick={() => goToPost(post)}
       >
         <p
-          className="excerpt"
+          className='excerpt'
           dangerouslySetInnerHTML={{ __html: post.excerpt.rendered }}
         ></p>
       </Link>
     </div>
     <Link
-      className="image"
+      className='image'
       to={`/${post.author_x.slug}/${post.slug}`}
       onClick={() => goToPost(post)}
     >
@@ -260,11 +261,13 @@ function PostList({
   useScrollToTop();
 
   const title =
-    author && posts[0] ? `Author: ${posts[0].author_x.name}` : `Latest`;
+    author && posts[0]
+      ? `Author: ${posts[0].author_x.name}`
+      : `Minority Report`;
 
   useMetaTags(
     {
-      title: title + ' - Minority Report',
+      title: title + ' - min.report',
       openGraph: {
         title,
         image: `${window.location.protocol}//${window.location.host}${logo}`,
@@ -272,7 +275,7 @@ function PostList({
       },
       twitter: {
         card: 'summary',
-        title: title + ' - Minority Report',
+        title: title + ' - min.report',
       },
     },
     [author, posts.length]
@@ -325,32 +328,35 @@ function PostList({
   const featuredPost = posts[0];
 
   return (
-    <SCPostList>
-      {author && posts.length > 0 && (
-        <>
-          <SCAuthorTitle>
-            <Header />
-            <h1>{posts[0].author_x.name}</h1>
-          </SCAuthorTitle>
-        </>
-      )}
-      {!author && featuredPost && (
-        <FeaturedPost post={featuredPost} goToPost={goToPost} />
-      )}
-      <SCOlderPosts>
-        {posts.map((post, index) =>
-          index === 0 && !author ? (
-            <React.Fragment key={post.id}></React.Fragment>
-          ) : (
-            <PostListItem
-              key={post.id}
-              post={post}
-              goToPost={goToPost}
-            ></PostListItem>
-          )
+    <>
+      <SCPostList>
+        {author && posts.length > 0 && (
+          <>
+            <SCAuthorTitle>
+              <Header />
+              <h1>{posts[0].author_x.name}</h1>
+            </SCAuthorTitle>
+          </>
         )}
-      </SCOlderPosts>
-    </SCPostList>
+        {!author && featuredPost && (
+          <FeaturedPost post={featuredPost} goToPost={goToPost} />
+        )}
+        <SCOlderPosts>
+          {posts.map((post, index) =>
+            index === 0 && !author ? (
+              <React.Fragment key={post.id}></React.Fragment>
+            ) : (
+              <PostListItem
+                key={post.id}
+                post={post}
+                goToPost={goToPost}
+              ></PostListItem>
+            )
+          )}
+        </SCOlderPosts>
+      </SCPostList>
+      <Footer />
+    </>
   );
 }
 
