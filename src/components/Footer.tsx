@@ -7,6 +7,7 @@ const SCFooter = styled.footer`
   color: white;
   padding: 0.25em;
   text-align: center;
+  margin-top: 10em;
   p {
     margin: 0;
   }
@@ -31,8 +32,8 @@ function Footer() {
   return (
     <SCFooter>
       <p>Copyright 2020 min.report</p>
-      <div className="com">
-        <img src={com} alt="City of Melbourne Logo"></img>
+      <div className='com'>
+        <img src={com} alt='City of Melbourne Logo'></img>
         <p>Supported by the City of Melbourne COVID-19 Arts Grants</p>
       </div>
     </SCFooter>
