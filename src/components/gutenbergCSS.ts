@@ -536,6 +536,19 @@ export const imagesCSS = css`
     }
   }
 `;
+export const videoCSS = css`
+  .wp-block-video {
+    margin-left: 0;
+    margin-right: 0;
+    video {
+      max-width: 100%;
+    }
+    figcaption {
+      margin-top: 0.5em;
+      margin-bottom: 1em;
+    }
+  }
+`;
 
 export const galleryCSS = css`
   .wp-block-getwid-images-slider__item {
@@ -657,7 +670,7 @@ const galleryBlockCSS = css`
     flex-wrap: wrap;
     list-style-type: none;
     padding: 0;
-    margin: 0;
+    margin: 4em 0;
     .blocks-gallery-image {
       margin: 0 16px 16px 0;
       display: flex;
@@ -1171,4 +1184,5 @@ export const customGutenbergCSS = css`
   ${galleryCSS}
   ${citationCSS}
   ${galleryBlockCSS}
+  ${videoCSS}
 `;
