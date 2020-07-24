@@ -4,6 +4,7 @@ import styled, { css } from 'styled-components';
 import { Link } from 'react-router-dom';
 import logo from '../assets/MinorityReport_Logo.png';
 import useWindowSize from '../hooks/useWindowResize';
+import { formatDate } from '../helpers/helpers';
 
 const SCMarquee = styled.header<any>`
   top: 0;
@@ -147,7 +148,8 @@ function Marquee({ currentPost, history }: any) {
               ></h1>
               <Link to={`/author/${currentPost.author_x.slug}`}>
                 {currentPost.author_x.name}
-              </Link>
+              </Link>{' '}
+              - <time>{formatDate(currentPost.date_gmt)}</time>
             </div>
           )}
         </div>

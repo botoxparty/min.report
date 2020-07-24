@@ -12,7 +12,7 @@ import {
 import useScrollToTop from '../hooks/useScrollToTop';
 import useMetaTags from 'react-metatags-hook';
 import logo from '../assets/MinorityReport_Logo.jpg';
-import moment from 'moment';
+import { formatDate } from '../helpers/helpers';
 import qs from 'query-string';
 import Footer from './Footer';
 var ReactGA = require('react-ga');
@@ -106,7 +106,7 @@ const FeaturedPost = ({ post, goToPost }: PostListItemProps) => (
               </Link>
             </span>
           )}
-          <time>{moment(post.date_gmt).format('DD MMMM YYYY')}</time>
+          <time>{formatDate(post.date_gmt)}</time>
         </div>
       </div>
       <Link
@@ -197,7 +197,7 @@ const PostListItem = ({ post, goToPost }: PostListItemProps) => (
             {' - '}
           </>
         )}
-        <time>{moment(post.date_gmt).format('DD MMMM YYYY')}</time>
+        <time>{formatDate(post.date_gmt)}</time>
       </span>
       <Link
         to={`/${post.author_x.slug}/${post.slug}`}

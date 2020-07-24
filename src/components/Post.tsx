@@ -7,8 +7,7 @@ import useMetaTags from 'react-metatags-hook';
 import { MetaTagsConfig } from 'react-metatags-hook/dist/types';
 import watchFootnoteScroll from '../hooks/watchFootnoteScroll';
 import Footnotes from './Footnotes';
-import moment from 'moment';
-import { decode } from '../helpers/helpers';
+import { decode, formatDate } from '../helpers/helpers';
 import gutenbergCSS, { customGutenbergCSS } from './gutenbergCSS';
 import qs from 'query-string';
 //@ts-ignore
@@ -156,7 +155,7 @@ function Post({ post, setPost, history, location }: PostProps) {
                 </Link>
               </p>
             )}
-            <time>{moment(post.date_gmt).format('DD MMMM YYYY')}</time>
+            <time>{formatDate(post.date_gmt)}</time>
           </ArticleHead>
         )}
         <InnerHTML
