@@ -35,6 +35,7 @@ const SCFeaturedPost = styled.article`
   .site-header-featured-post {
     display: flex;
     align-items: center;
+    justify-content: space-evenly;
     padding: 0 1em;
     ${media.max.medium} {
       flex-direction: column;
