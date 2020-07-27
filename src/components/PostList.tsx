@@ -42,7 +42,7 @@ const SCFeaturedPost = styled.article`
     }
     a {
       ${media.min.medium} {
-        width: 80%;
+        max-width: 80%;
       }
     }
     img {
