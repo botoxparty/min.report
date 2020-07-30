@@ -851,6 +851,9 @@ const galleryBlockCSS = css`
 
   .wp-block-image {
     margin-bottom: 1em;
+    &.size-large {
+      margin-bottom: 3em;
+    }
     img {
       max-width: 100%;
     }
@@ -858,32 +861,26 @@ const galleryBlockCSS = css`
       display: table;
       margin-left: auto;
       margin-right: auto;
-      > figcaption {
-        display: table-caption;
-        caption-side: bottom;
+      &.size-large {
+        margin-bottom: 3em;
       }
     }
     .alignleft {
       display: table;
       float: left;
       margin: 0.5em 1em 0.5em 0;
-      > figcaption {
-        display: table-caption;
-        caption-side: bottom;
-      }
     }
     .alignright {
       display: table;
       float: right;
       margin: 0.5em 0 0.5em 1em;
-      > figcaption {
-        display: table-caption;
-        caption-side: bottom;
-      }
     }
     figcaption {
       margin-top: 0.5em;
       margin-bottom: 1em;
+      display: block;
+      caption-side: bottom;
+      width: 100%;
     }
   }
   .wp-block-image.aligncenter {
