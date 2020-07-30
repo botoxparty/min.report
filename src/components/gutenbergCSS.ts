@@ -851,9 +851,6 @@ const galleryBlockCSS = css`
 
   .wp-block-image {
     margin-bottom: 1em;
-    &.size-large {
-      margin-bottom: 3em;
-    }
     img {
       max-width: 100%;
     }
@@ -861,7 +858,8 @@ const galleryBlockCSS = css`
       display: table;
       margin-left: auto;
       margin-right: auto;
-      &.size-large {
+      &.size-large,
+      &.size-full {
         margin-bottom: 3em;
       }
     }
