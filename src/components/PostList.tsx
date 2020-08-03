@@ -276,7 +276,7 @@ function PostList({
       },
       twitter: {
         card: 'summary',
-        title: title + ' - min.report',
+        title: title,
       },
     },
     [author, posts.length]
