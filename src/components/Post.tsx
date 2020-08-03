@@ -122,7 +122,7 @@ function Post({ post, setPost, history, location }: PostProps) {
         openGraph: {},
         twitter: {
           card: 'summary',
-          title: 'min.report | Minority Report',
+          title: decode(post.yoast_title) + ' - min.report',
         },
       }
     : {};
