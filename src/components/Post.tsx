@@ -119,7 +119,10 @@ function Post({ post, setPost, history, location }: PostProps) {
         title: decode(post.yoast_title) + ' - min.report',
         metas: post.yoast_meta,
         links: [],
-        openGraph: {},
+        openGraph: {
+          title: decode(post.yoast_title),
+          image: post.featured_img_x.thumb,
+        },
         twitter: {
           card: 'summary',
           title: decode(post.yoast_title),
