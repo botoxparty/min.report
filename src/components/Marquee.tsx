@@ -53,6 +53,7 @@ const SCMarquee = styled.header<any>`
     .post-title {
       flex: 1;
       text-align: right;
+      padding-left: 0.75em;
       h1 {
         margin: 0;
         padding: 0;
