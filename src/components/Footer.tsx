@@ -8,7 +8,7 @@ const SCFooter = styled.footer`
   padding: 0.25em;
   text-align: center;
   p {
-    margin: 0;
+    margin: 0.5em 0;
   }
   .com {
     display: flex;
