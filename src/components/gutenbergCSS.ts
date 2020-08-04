@@ -2,13 +2,6 @@ import { css } from 'styled-components';
 import media from '../media';
 
 export default css`
-  html {
-    line-height: 1.15;
-    -webkit-text-size-adjust: 100%;
-  }
-  body {
-    margin: 0;
-  }
   main {
     display: block;
   }
@@ -168,21 +161,6 @@ export default css`
   li:first-line {
     box-shadow: none !important;
     text-shadow: none !important;
-  }
-  html {
-    font-size: 16px;
-    margin: 0;
-    padding: 0;
-  }
-  body {
-    -moz-osx-font-smoothing: grayscale;
-    -webkit-font-smoothing: antialiased;
-    background: #fff !important;
-    color: #000 !important;
-    font-size: 1rem;
-    line-height: 1.5;
-    margin: 0 auto;
-    text-rendering: optimizeLegibility;
   }
   p,
   blockquote,
