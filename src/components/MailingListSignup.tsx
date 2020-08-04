@@ -103,7 +103,7 @@ function MailingListSignup() {
         <div dangerouslySetInnerHTML={{ __html: message }}></div>
       ) : (
         <div className='signup-form'>
-          <label>Sign up for the mailing list</label>
+          <label>Sign up to the mailing list</label>
           <input
             type='email'
             name='email'
