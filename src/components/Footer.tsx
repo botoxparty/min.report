@@ -7,7 +7,6 @@ const SCFooter = styled.footer`
   color: white;
   padding: 0.25em;
   text-align: center;
-  margin-top: 10em;
   p {
     margin: 0;
   }

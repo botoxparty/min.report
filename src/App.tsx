@@ -8,6 +8,11 @@ import Marquee from './components/Marquee';
 import styled from 'styled-components';
 import media from './media';
 import Error from './components/Error';
+import MailingListSignup from './components/MailingListSignup';
+
+const PageBottomMargin = styled.div`
+  height: 10em;
+`;
 
 const Main = styled.main`
   ${media.max.tablet} {
@@ -72,6 +77,9 @@ function App() {
         />
         <Route exact path='/404' render={(props) => <Error {...props} />} />
       </Switch>
+      <PageBottomMargin />
+      <MailingListSignup />
+      <Footer />
     </Main>
   );
 }

@@ -356,7 +356,6 @@ function PostList({
           )}
         </SCOlderPosts>
       </SCPostList>
-      <Footer />
     </>
   );
 }

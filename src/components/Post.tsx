@@ -167,7 +167,6 @@ function Post({ post, setPost, history, location }: PostProps) {
         />
         <Footnotes citations={citations} />
       </SCPost>
-      <Footer />
     </>
   );
 }
