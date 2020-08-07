@@ -397,7 +397,7 @@ export default css`
 `;
 
 const videoPlayerCSS = css`
-  figure.wp-block-embed.is-type-video {
+  .wp-block-embed.is-type-video {
     padding-bottom: 1rem;
     ${media.max.large} {
       margin: 0;
@@ -425,6 +425,27 @@ const videoPlayerCSS = css`
     &.wp-embed-aspect-4-3 {
       .wp-block-embed__wrapper {
         padding-top: 71.25%;
+      }
+    }
+  }
+
+  .wp-block-embed-youtube {
+    &.alignright {
+      max-width: 500px;
+      width: 100%;
+      margin: auto;
+      ${media.min.tablet} {
+        padding-left: 2em;
+        float: right;
+      }
+    }
+    &.alignleft {
+      max-width: 500px;
+      width: 100%;
+      margin: auto;
+      ${media.min.tablet} {
+        padding-right: 2em;
+        float: left;
       }
     }
   }
