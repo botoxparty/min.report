@@ -41,6 +41,7 @@ const SCMailingListSignup = styled.form`
     }
   }
   .input-wrapper {
+    display: flex;
     button {
       height: 30px;
     }
