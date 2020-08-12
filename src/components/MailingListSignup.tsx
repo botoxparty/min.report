@@ -40,14 +40,20 @@ const SCMailingListSignup = styled.form`
       cursor: pointer;
     }
   }
-  label {
-    margin: 0 1em;
-  }
-  input {
-    border: 1px dotted gray;
-    font-family: 'Times';
-    font-size: 1rem;
-    padding: 0.25em;
+  .input-wrapper {
+    button {
+      height: 30px;
+    }
+    label {
+      margin: 0 1em;
+    }
+    input {
+      height: 30px;
+      border: 1px dotted gray;
+      font-family: 'Times';
+      font-size: 1rem;
+      padding: 0.25em;
+    }
   }
 `;
 
@@ -104,12 +110,16 @@ function MailingListSignup() {
       ) : (
         <div className='signup-form'>
           <label>Sign up to the mailing list</label>
-          <input
-            type='email'
-            name='email'
-            ref={emailRef}
-            placeholder='Email address'
-          ></input>
+          <div className='input-wrapper'>
+            <input
+              type='email'
+              name='email'
+              required
+              ref={emailRef}
+              placeholder='Email address'
+            ></input>
+            <button>Go</button>
+          </div>
         </div>
       )}
     </SCMailingListSignup>

@@ -37,10 +37,6 @@ const SCFootnotes = styled.div<any>`
     position: absolute;
     top: 1em;
     right: 1em;
-    background: lightgray;
-    border: 1px dotted gray;
-    border-radius: 2px;
-    cursor: pointer;
   }
   h4 {
     margin-top: 0;

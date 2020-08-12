@@ -30,3 +30,10 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+button {
+  background: silver;
+  border: 1px dotted gray;
+  border-radius: 2px;
+  cursor: pointer;
+}
