@@ -42,7 +42,6 @@ const SCMarquee = styled.header<any>`
       a.logo {
         display: flex;
         align-items: center;
-        padding-left: 1em;
         img {
           max-height: 32px;
           max-width: 32px;
