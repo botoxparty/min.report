@@ -149,7 +149,10 @@ function Marquee({ currentPost, history }: any) {
               <Link to={`/author/${currentPost.author_x.slug}`}>
                 {currentPost.author_x.name}
               </Link>{' '}
-              - <time>{formatDate(currentPost.date_gmt)}</time>
+              -{' '}
+              <time dateTime={currentPost.date_gmt.split('T')[0]}>
+                {formatDate(currentPost.date_gmt)}
+              </time>
             </div>
           )}
         </div>

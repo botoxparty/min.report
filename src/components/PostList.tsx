@@ -107,7 +107,9 @@ const FeaturedPost = ({ post, goToPost }: PostListItemProps) => (
               </Link>
             </span>
           )}
-          <time>{formatDate(post.date_gmt)}</time>
+          <time dateTime={post.date_gmt.split('T')[0]}>
+            {formatDate(post.date_gmt)}
+          </time>
         </div>
       </div>
       <Link
@@ -198,7 +200,9 @@ const PostListItem = ({ post, goToPost }: PostListItemProps) => (
             {' - '}
           </>
         )}
-        <time>{formatDate(post.date_gmt)}</time>
+        <time dateTime={post.date_gmt.split('T')[0]}>
+          {formatDate(post.date_gmt)}
+        </time>
       </span>
       <Link
         to={`/${post.author_x.slug}/${post.slug}`}

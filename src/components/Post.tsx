@@ -158,7 +158,9 @@ function Post({ post, setPost, history, location }: PostProps) {
                 </Link>
               </p>
             )}
-            <time>{formatDate(post.date_gmt)}</time>
+            <time dateTime={post.date_gmt.split('T')[0]}>
+              {formatDate(post.date_gmt)}
+            </time>
           </ArticleHead>
         )}
         <InnerHTML
