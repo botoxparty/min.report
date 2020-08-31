@@ -469,6 +469,10 @@ export const citationCSS = css`
     }
   }
 
+  p.has-text-align-right {
+    text-align: right;
+  }
+
   /* Hide citation on regular style for footnotes feature */
   p cite,
   blockquote:not(.is-style-large) cite {
