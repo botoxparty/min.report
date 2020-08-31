@@ -477,11 +477,11 @@ export const citationCSS = css`
 
   > p {
     line-height: 1.4;
-    margin-bottom: 3.25rem;
+    margin-bottom: 2.9rem;
     position: relative;
     z-index: 99;
     + blockquote {
-      margin-top: -3.1em;
+      margin-top: -2.9em;
       padding-left: 4em;
       border: 0;
       color: #202267;
