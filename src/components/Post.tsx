@@ -79,7 +79,6 @@ function Post({ post, setPost, history, location }: PostProps) {
           setPost(data);
           setLoaded(true);
         } catch (e) {
-          console.log(e.response.status);
           const { status } = e.response;
           if (status === 404) {
             history.push('/404');

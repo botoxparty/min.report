@@ -1,5 +1,5 @@
 import React from 'react';
-import PostList from './components/PostList';
+import PostList from './components/PostList/index';
 import Footer from './components/Footer';
 import { Route, Switch } from 'react-router-dom';
 import Post from './components/Post';
@@ -27,15 +27,21 @@ function App() {
   const [authorPosts, setAuthorPosts] = React.useState(
     [] as Array<WordpressPost>
   );
+  const [pageCount, setPageCount] = React.useState(1);
 
   React.useEffect(() => {
     async function loadContent() {
-      const { data } = await wordpress.getPosts();
-      setPosts(data);
+      const { data, headers } = await wordpress.getPosts(pageCount);
+      setPosts([...posts, ...data]);
+      const totalPages = parseInt(headers['x-wp-totalpages']);
+
+      if (pageCount < totalPages) {
+        setPageCount(pageCount + 1);
+      }
     }
 
     loadContent();
-  }, []);
+  }, [pageCount]);
 
   return (
     <Main>

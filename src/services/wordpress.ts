@@ -2,8 +2,8 @@ import http from './http';
 
 const WP_URL = 'https://admin.min.report/wp-json';
 
-const getPosts = (path?: string) =>
-  http.get(`${WP_URL}/wp/v2/posts?per_page=20`);
+const getPosts = (page: number) =>
+  http.get(`${WP_URL}/wp/v2/posts?per_page=10&page=${page}`);
 
 const getPostsByAuthor = (author: string) =>
   http.get(`${WP_URL}/wp/v2/author_x?slug=${author}`);
