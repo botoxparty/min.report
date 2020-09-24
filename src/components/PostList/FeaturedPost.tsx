@@ -21,6 +21,7 @@ const SCFeaturedPost = styled.article`
     a {
       ${media.min.medium} {
         max-width: 80%;
+        min-width: 40%;
       }
     }
     img {
