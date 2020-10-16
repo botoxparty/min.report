@@ -10,6 +10,7 @@ import logo from '../../assets/MinorityReport_Logo.jpg';
 import qs from 'query-string';
 import FeaturedPost from './FeaturedPost';
 import PostListItem from './PostListItem';
+import MixBanner from '../MixBanner';
 var ReactGA = require('react-ga');
 
 const SCPostList = styled.section`
@@ -42,6 +43,7 @@ interface PostListProps extends RouteComponentProps {
   setPost: Function;
   setPosts: Function;
   posts: Array<WordpressPost>;
+  withMixes?: boolean;
 }
 
 function PostList({
@@ -50,6 +52,7 @@ function PostList({
   setPost,
   history,
   location,
+  withMixes
 }: PostListProps) {
   const { author } = useParams();
   const [loaded, setLoaded] = React.useState(false);
@@ -136,6 +139,7 @@ function PostList({
         {!author && featuredPost && (
           <FeaturedPost post={featuredPost} goToPost={goToPost} />
         )}
+        <MixBanner />
         <SCOlderPosts>
           {posts.map((post, index) =>
             index === 0 && !author ? (

@@ -56,6 +56,7 @@ function App() {
           render={(props) => (
             <PostList
               setPosts={setPosts}
+              withMixes
               posts={posts}
               {...props}
               setPost={setCurrentPost}
