@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import media from '../media';
 import { WordpressMix } from '../services/wordpress';
 
 const Mix = styled.a`
@@ -45,6 +46,14 @@ const Mix = styled.a`
     h4 {
         margin-top: 0;
     }
+
+
+    ${media.max.medium} {
+        flex-direction: column;
+        .title {
+            text-align: center;
+        }
+    }
 `
 
 interface Props {
@@ -62,7 +71,7 @@ function MixBanner({mix}: Props) {
                 </div>}
                 <div className="text">
                 <h2 dangerouslySetInnerHTML={{ __html: mix.title.rendered }}></h2>
-                <h2>By {mix.dj.map((dj: any) => dj.display_name).join(', ')}</h2>
+                <h3>By {mix.dj.map((dj: any) => dj.display_name).join(', ')}</h3>
                 </div>
             </div>
         </div>
