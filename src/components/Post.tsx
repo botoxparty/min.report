@@ -138,7 +138,6 @@ function Post({ post, setPost, history, location }: PostProps) {
   const isFullscreen = !!document.querySelector('.full-screen');
 
   return (
-    <>
       <SCPost>
         {!isFullscreen && (
           <ArticleHead
@@ -168,7 +167,6 @@ function Post({ post, setPost, history, location }: PostProps) {
         />
         <Footnotes citations={citations} />
       </SCPost>
-    </>
   );
 }
 

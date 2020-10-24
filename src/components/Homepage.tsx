@@ -5,6 +5,8 @@ import logo from '../assets/MinorityReport_Logo.jpg';
 import useMetaTags from 'react-metatags-hook';
 import PostList from './PostList';
 import useScrollToTop from '../hooks/useScrollToTop';
+import { Redirect } from 'react-router-dom';
+import qs from 'query-string';
 var ReactGA = require('react-ga');
 
 const SCHomepage = styled.section`
@@ -13,7 +15,7 @@ const SCHomepage = styled.section`
   min-height: 100vh;
 `;
 
-function Homepage({posts, setPost}: any) {
+function Homepage({posts, setPost, mixes, location}: any) {
     useScrollToTop();
     const title = "Minority Report";
     useMetaTags(
@@ -35,13 +37,19 @@ function Homepage({posts, setPost}: any) {
     React.useEffect(() => {
       ReactGA.pageview(window.location.pathname);
     }, [])
+
+  const query = qs.parse(location.search);
+  if (query.preview) {
+    return <Redirect to={`preview/preview/?preview_id=${query.p}`}></Redirect>;
+  }
+
   if(!posts.length) {
     return <SCHomepage></SCHomepage>;
   }
   return (
     <SCHomepage>
         <FeaturedPost post={posts[0]} goToPost={setPost}></FeaturedPost>
-        <PostList posts={posts.slice(1,posts.length)} setPost={setPost} />
+        <PostList posts={posts.slice(1,posts.length)} setPost={setPost} mixes={mixes} />
     </SCHomepage>
   );
 }

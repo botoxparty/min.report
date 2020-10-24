@@ -1,25 +1,35 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
+import { WordpressMix } from '../services/wordpress';
 
-const StyledMixBanner = styled.div`
-    position: relative;
-`;
-
-const MixOverlay = styled.div`
+const Mix = styled.a`
     width: 100%;
     min-height: 150px;
     margin: 1em 0;
+    padding: 0 1em;
     background: lightcyan;
     cursor: pointer;
     display: flex;
     .title {
         padding: 1em;
         flex: 1;
+        &__content {
+            display: flex;
+            .image {
+                padding-right: 2em;
+                img {
+                    max-height: 200px;
+                }
+            }
+            .text {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+            }
+        }
     }
     .actions {
         font-size: 1.5em;
-        /* background-color: black; */
-        /* a { color: white; } */
         margin: 1em;
         display: flex;
         flex-direction: column;
@@ -37,27 +47,31 @@ const MixOverlay = styled.div`
     }
 `
 
-function MixBanner() {
+interface Props {
+    mix: WordpressMix;
+}
 
-    const [showOverlay, setShowOverlay] = useState(true);
-
-    // const src = 'https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/854935270&amp;color=%23ff5500&amp;auto_play=true&amp;hide_related=false&amp;show_comments=true&amp;show_user=true&amp;show_reposts=false&amp;show_teaser=true&amp;visual=true';
-
-    const src = 'https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/854935270&auto_play=false&color=%23202267';
-    return  <StyledMixBanner >
-            {showOverlay ? <MixOverlay onClick={() => setShowOverlay(false)}>
-                <div className="title">
-                <h4>MIX</h4>
-                <h2>Bossy’s Gallery DJs: Lockdown Lounge (The Chillout Mix…) by Bossy's Gallery</h2>
+function MixBanner({mix}: Props) {
+    return (
+    <Mix href={mix.linked_post || mix.soundcloud_url} target="_blank">
+        <div className="title">
+            <h4>MIX</h4>
+            <div className="title__content">
+                {mix.featured_img_x.thumb && <div className="image">
+                    <img alt={mix.title.rendered} src={mix.featured_img_x.thumb} />
+                </div>}
+                <div className="text">
+                <h2 dangerouslySetInnerHTML={{ __html: mix.title.rendered }}></h2>
+                <h2>By {mix.dj.map((dj: any) => dj.display_name).join(', ')}</h2>
                 </div>
-                <p className="actions">
-                <a>Listen now &#9658;</a>
-                <br></br>
-                <a>... read the full story</a>
-                </p>
-                </MixOverlay> :
-                <iframe scrolling="no" allow="autoplay" src={src} width="100%" height="180" frameBorder="no"><title>Mix</title></iframe>}
-            </StyledMixBanner>
+            </div>
+        </div>
+        <div className="actions">
+            <div>Listen now</div>
+            <br />
+            <div>&#9658;</div>
+        </div>
+    </Mix>)
 }
 
 export default MixBanner;

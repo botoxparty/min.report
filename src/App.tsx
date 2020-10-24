@@ -1,9 +1,8 @@
 import React from 'react';
-import PostList from './components/PostList/index';
 import Footer from './components/Footer';
 import { Route, Switch } from 'react-router-dom';
 import Post from './components/Post';
-import wordpress, { WordpressPost } from './services/wordpress';
+import wordpress, { WordpressMix, WordpressPost } from './services/wordpress';
 import Marquee from './components/Marquee';
 import styled from 'styled-components';
 import media from './media';
@@ -26,13 +25,14 @@ const Main = styled.main`
 function App() {
   const [currentPost, setCurrentPost] = React.useState();
   const [posts, setPosts] = React.useState([] as Array<WordpressPost>);
+  const [mixes, setMixes] = React.useState([] as Array<WordpressMix>);
   const [authorPosts, setAuthorPosts] = React.useState(
     [] as Array<WordpressPost>
   );
   const [pageCount, setPageCount] = React.useState(1);
 
   React.useEffect(() => {
-    async function loadContent() {
+    async function loadPosts() {
       const { data, headers } = await wordpress.getPosts(pageCount);
       setPosts([...posts, ...data]);
       const totalPages = parseInt(headers['x-wp-totalpages']);
@@ -42,8 +42,18 @@ function App() {
       }
     }
 
-    loadContent();
+    loadPosts();
   }, [pageCount]);
+
+  React.useEffect(() => {
+    async function loadMixes() {
+      const { data } = await wordpress.getMixes();
+      setMixes([...data]);
+    }
+
+    loadMixes();
+  }, []);
+
 
   return (
     <Main>
@@ -60,6 +70,7 @@ function App() {
             setPosts={setPosts}
             posts={posts}
             setPost={setCurrentPost}
+            mixes={mixes}
             {...props}
             />
           )}
@@ -73,6 +84,7 @@ function App() {
               setPost={setCurrentPost}
               setPosts={setAuthorPosts}
               posts={authorPosts}
+              mixes={mixes}
             />
           )}
         />

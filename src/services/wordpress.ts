@@ -2,6 +2,9 @@ import http from './http';
 
 const WP_URL = 'https://admin.min.report/wp-json';
 
+const getMixes = () =>
+  http.get(`${WP_URL}/wp/v2/mix?per_page=20`);
+
 const getPosts = (page: number) =>
   http.get(`${WP_URL}/wp/v2/posts?per_page=10&page=${page}`);
 
@@ -17,11 +20,41 @@ const getPostPreview = (id: string) =>
 export default {
   getPosts,
   getPost,
+  getMixes,
   getPostsByAuthor,
   getPostPreview,
 };
 
-export interface WordpressPost {
+interface WordpressBasic {
+  id: number;
+  date: string;
+  date_gmt: string;
+  guid: {
+    rendered: string;
+  };
+  modified: string;
+  modified_gmt: string;
+  slug: string;
+  status: string;
+  type: string;
+  link: string;
+  title: {
+    rendered: string;
+  };
+  template: string;
+  tags: Array<number>;
+  yoast_meta: Array<any>;
+  yoast_title: string;
+  yst_prominent_words: Array<string>;
+  featured_media: number;
+  featured_img_x: {
+    thumb: string;
+    medium: string;
+    large: string;
+  };
+}
+
+export interface WordpressPost extends WordpressBasic {
   author_x: {
     id: number;
     name: string;
@@ -29,41 +62,21 @@ export interface WordpressPost {
   };
   categories: Array<number>;
   comment_status: string;
+  format: string;
+  ping_status: string;
+  sticky: boolean;
   content: {
     rendered: string;
     protected: boolean;
   };
-  date: string;
-  date_gmt: string;
   excerpt: {
     rendered: string;
   };
-  featured_media: number;
-  featured_img_x: {
-    thumb: string;
-    medium: string;
-    large: string;
-  };
-  format: string;
-  guid: {
-    rendered: string;
-  };
-  id: number;
-  link: string;
-  meta: Array<any>;
-  modified: string;
-  modified_gmt: string;
-  ping_status: string;
-  slug: string;
-  status: string;
-  sticky: boolean;
-  tags: Array<number>;
-  template: string;
-  title: {
-    rendered: string;
-  };
-  type: string;
-  yoast_meta: Array<any>;
-  yoast_title: string;
-  yst_prominent_words: Array<string>;
+}
+
+
+export interface WordpressMix extends WordpressBasic {
+    linked_post: any;
+    soundcloud_url: string;
+    dj: any;
 }

@@ -28,7 +28,7 @@ const SCAuthorTitle = styled.div`
 `;
 
 
-function Author({posts, setPost, setPosts}: any) {
+function Author({posts, setPost, setPosts, mixes}: any) {
     console.log({posts})
     const [loaded, setLoaded] = React.useState(false);
     const { author } = useParams<any>();
@@ -89,7 +89,7 @@ function Author({posts, setPost, setPosts}: any) {
         <Header />
         <h1>{posts[0].author_x.name}</h1>
       </SCAuthorTitle>
-      <PostList posts={posts} setPost={setPost}/>
+      <PostList posts={posts} setPost={setPost} mixes={mixes}/>
     </SCAuthor>
   );
 }
