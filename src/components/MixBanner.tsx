@@ -41,7 +41,9 @@ function MixBanner() {
 
     const [showOverlay, setShowOverlay] = useState(true);
 
-    const src = 'https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/854935270&amp;color=%23ff5500&amp;auto_play=true&amp;hide_related=false&amp;show_comments=true&amp;show_user=true&amp;show_reposts=false&amp;show_teaser=true&amp;visual=true';
+    // const src = 'https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/854935270&amp;color=%23ff5500&amp;auto_play=true&amp;hide_related=false&amp;show_comments=true&amp;show_user=true&amp;show_reposts=false&amp;show_teaser=true&amp;visual=true';
+
+    const src = 'https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/854935270&auto_play=false&color=%23202267';
     return  <StyledMixBanner >
             {showOverlay ? <MixOverlay onClick={() => setShowOverlay(false)}>
                 <div className="title">
@@ -54,7 +56,7 @@ function MixBanner() {
                 <a>... read the full story</a>
                 </p>
                 </MixOverlay> :
-                <iframe scrolling="no" allow="autoplay" src={src} width="100%" height="200" frameBorder="no"><title>Mix</title></iframe>}
+                <iframe scrolling="no" allow="autoplay" src={src} width="100%" height="180" frameBorder="no"><title>Mix</title></iframe>}
             </StyledMixBanner>
 }
 

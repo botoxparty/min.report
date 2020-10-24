@@ -9,6 +9,8 @@ import styled from 'styled-components';
 import media from './media';
 import Error from './components/Error';
 import MailingListSignup from './components/MailingListSignup';
+import Homepage from './components/Homepage';
+import Author from './components/Author';
 
 const PageBottomMargin = styled.div`
   height: 10em;
@@ -54,12 +56,11 @@ function App() {
           exact
           path='/'
           render={(props) => (
-            <PostList
-              setPosts={setPosts}
-              withMixes
-              posts={posts}
-              {...props}
-              setPost={setCurrentPost}
+            <Homepage
+            setPosts={setPosts}
+            posts={posts}
+            setPost={setCurrentPost}
+            {...props}
             />
           )}
         />
@@ -67,7 +68,7 @@ function App() {
           exact
           path='/author/:author'
           render={(props) => (
-            <PostList
+            <Author
               {...props}
               setPost={setCurrentPost}
               setPosts={setAuthorPosts}
