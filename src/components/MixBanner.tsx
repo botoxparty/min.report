@@ -18,8 +18,10 @@ const Mix = styled.a`
             display: flex;
             .image {
                 padding-right: 2em;
+                max-width: 50%;
                 img {
                     max-height: 200px;
+                    max-width: 100%;
                 }
             }
             .text {
