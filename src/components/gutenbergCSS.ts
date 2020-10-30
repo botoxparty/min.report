@@ -307,6 +307,9 @@ export default css`
     border: 0;
     text-decoration: none;
   }
+  figure {
+    margin: 0;
+  }
   table,
   blockquote,
   pre,
@@ -430,6 +433,11 @@ const videoPlayerCSS = css`
   }
 
   .wp-block-embed-youtube {
+    iframe {
+      ${media.max.medium} {
+        width: 100%;
+      }
+    }
     &.alignright {
       max-width: 500px;
       width: 100%;
@@ -625,7 +633,6 @@ const galleryBlockCSS = css`
       justify-content: center;
       position: relative;
       figure {
-        margin: 0;
         height: 100%;
       }
       figcaption {
@@ -649,7 +656,6 @@ const galleryBlockCSS = css`
       position: relative;
       width: calc(50% - 16px);
       figure {
-        margin: 0;
         height: 100%;
       }
       img {
@@ -701,7 +707,6 @@ const galleryBlockCSS = css`
       position: relative;
       width: calc(50% - 16px);
       figure {
-        margin: 0;
         height: 100%;
       }
       img {
@@ -746,7 +751,6 @@ const galleryBlockCSS = css`
       position: relative;
       width: calc(50% - 16px);
       figure {
-        margin: 0;
         height: 100%;
       }
       img {
