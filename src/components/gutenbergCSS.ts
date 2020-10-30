@@ -512,6 +512,9 @@ export const embedsCSS = css`
       margin: auto !important;
     }
   }
+  .wp-block-embed.aligncenter {
+    text-align: center;
+  }
 `;
 export const imagesCSS = css`
   .wp-block-image {
@@ -551,14 +554,14 @@ export const videoCSS = css`
       video { max-height: 600px; }
       ${media.min.medium} {
         float: right;
-      padding-left: 2em;
-    }
+        padding-left: 2em;
+      }
     }
     &.align-left {
       video { max-height: 600px; }
       ${media.min.medium} {
-      float: left;
-      padding-right: 2em;
+        float: left;
+        padding-right: 2em;
       }
     }
     figcaption {
