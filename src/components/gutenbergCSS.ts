@@ -546,18 +546,18 @@ export const videoCSS = css`
   .wp-block-video {
     margin-left: 0;
     margin-right: 0;
+    text-align: center;
     video {
       max-width: 100%;
     }
-    text-align: center;
-    &.align-right {
+    &.alignright {
       video { max-height: 600px; }
       ${media.min.medium} {
         float: right;
         padding-left: 2em;
       }
     }
-    &.align-left {
+    &.alignleft {
       video { max-height: 600px; }
       ${media.min.medium} {
         float: left;
