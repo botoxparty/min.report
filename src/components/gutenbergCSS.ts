@@ -546,6 +546,21 @@ export const videoCSS = css`
     video {
       max-width: 100%;
     }
+    text-align: center;
+    &.align-right {
+      video { max-height: 600px; }
+      ${media.min.medium} {
+        float: right;
+      padding-left: 2em;
+    }
+    }
+    &.align-left {
+      video { max-height: 600px; }
+      ${media.min.medium} {
+      float: left;
+      padding-right: 2em;
+      }
+    }
     figcaption {
       margin-top: 0.5em;
       margin-bottom: 1em;
