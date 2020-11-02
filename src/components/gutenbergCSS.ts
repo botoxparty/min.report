@@ -555,6 +555,8 @@ export const videoCSS = css`
     margin-left: 0;
     margin-right: 0;
     text-align: center;
+    z-index: 9999;
+    position: relative;
     video {
       max-width: 100%;
     }
