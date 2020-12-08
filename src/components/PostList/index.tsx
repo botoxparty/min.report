@@ -60,6 +60,8 @@ function PostList({
         if(injectedMixes < mixes.length) {
           arr.push(mixes[injectedMixes]);
           injectedMixes++;
+        } else {
+          arr.push(posts[index - injectedMixes]);
         }
       } else {
         arr.push(posts[index - injectedMixes]);
