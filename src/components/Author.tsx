@@ -89,7 +89,7 @@ function Author({posts, setPost, setPosts, mixes}: any) {
         <Header />
         <h1>{posts[0].author_x.name}</h1>
       </SCAuthorTitle>
-      <PostList posts={posts} setPost={setPost} mixes={mixes}/>
+      <PostList posts={posts} setPost={setPost} mixes={[]}/>
     </SCAuthor>
   );
 }

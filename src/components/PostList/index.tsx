@@ -30,6 +30,9 @@ interface PostListProps {
 }
 
 function renderPostOrMix({post, goToPost}: any) {
+
+  if(!post) return
+  
   if(post.type === 'mix')
   return <MixBanner key={post.id} mix={post} />
 
