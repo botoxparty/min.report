@@ -64,7 +64,7 @@ interface PostProps extends RouteComponentProps {
 function Post({ post, setPost, history, location }: PostProps) {
   const [, setLoaded] = React.useState(true);
   const [citations, setCitations] = React.useState([]);
-  const { slug } = useParams();
+  const { slug } = useParams<any>();
 
   useScrollToTop();
   React.useEffect(() => {

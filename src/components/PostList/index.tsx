@@ -11,7 +11,6 @@ const SCPostList = styled.section`
   min-height: 100vh;
 `;
 
-
 const SCOlderPosts = styled.div`
   display: flex;
   flex-wrap: wrap;
@@ -23,6 +22,7 @@ const SCOlderPosts = styled.div`
     }
   }
 `;
+
 interface PostListProps {
   setPost: Function;
   posts: Array<WordpressPost>;

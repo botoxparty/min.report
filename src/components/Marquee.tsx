@@ -1,7 +1,7 @@
 import { useScrollPosition } from '@n8tb1t/use-scroll-position';
 import * as React from 'react';
 import styled, { css } from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import logo from '../assets/MinorityReport_Logo.png';
 import useWindowSize from '../hooks/useWindowResize';
 import { formatDate } from '../helpers/helpers';
@@ -39,6 +39,8 @@ const SCMarquee = styled.header<any>`
       max-width: 1050px;
       width: 100%;
       margin: auto;
+      justify-content: space-between;
+      align-items: center;
       a.logo {
         display: flex;
         align-items: center;
@@ -47,6 +49,9 @@ const SCMarquee = styled.header<any>`
           max-width: 32px;
           margin-left: 0.5em;
         }
+      }
+      .author-list select {
+        font-size: 0.875rem;
       }
     }
     .post-title {
@@ -82,9 +87,10 @@ const Disclaimer = styled.div`
   justify-content: center;
 `;
 
-function Marquee({ currentPost, history }: any) {
+function Marquee({ currentPost, authors }: any) {
   const [showOnScroll, setShowOnScroll] = React.useState(false);
   const marqueeRef = React.useRef(null);
+  const history = useHistory();
 
   useScrollPosition(() => {
     let height = 0;
@@ -141,7 +147,7 @@ function Marquee({ currentPost, history }: any) {
             min.report
             <img src={logo} alt='Minority Report Crest by Hana Earles' />
           </Link>
-          {currentPost?.id && (
+          {currentPost?.id ? (
             <div className='post-title'>
               <h1
                 dangerouslySetInnerHTML={{ __html: currentPost.title.rendered }}
@@ -154,7 +160,12 @@ function Marquee({ currentPost, history }: any) {
                 {formatDate(currentPost.date_gmt)}
               </time>
             </div>
-          )}
+          ) : <div className="author-list">
+            <select defaultValue="none" onChange={e => history.push(`/author/${e.target.value}`)}>
+              <option disabled value="none">Reporters: </option>
+              {authors.map((author: any) => <option key={author.slug} value={author.slug}>{author.name}</option>)}
+            </select>
+            </div>}
         </div>
       </div>
     </SCMarquee>

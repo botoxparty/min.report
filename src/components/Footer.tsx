@@ -31,10 +31,6 @@ function Footer() {
   return (
     <SCFooter>
       <p>Copyright 2020 min.report</p>
-      <div className='com'>
-        <img src={com} alt='City of Melbourne Logo'></img>
-        <p>Supported by the City of Melbourne COVID-19 Arts Grants</p>
-      </div>
     </SCFooter>
   );
 }
