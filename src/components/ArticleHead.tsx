@@ -1,5 +1,5 @@
 import * as React from 'react';
-import Header from './Header';
+import Logo from './Logo';
 import styled from 'styled-components';
 import media from '../media';
 
@@ -15,10 +15,14 @@ const SCArticleHead = styled.div`
     }
   }
   h1 {
-    font-size: 3em;
+    font-size: 2.5rem;
     margin-bottom: 0.25em;
-    margin-top: 0.8em;
+    margin-top: 1rem;
     padding: 0 1rem;
+    ${media.min.medium} {
+      font-size: 3em;
+      margin-top: 1.5rem;
+    }
   }
   img {
     max-width: 100%;
@@ -36,8 +40,8 @@ const SCArticleHead = styled.div`
 function ArticleHead({ children, title }: any) {
   return (
     <SCArticleHead className='article-head'>
-      <Header />
-      {title}
+      <Logo />
+      <h1 dangerouslySetInnerHTML={{ __html: title }}></h1>
       {children}
     </SCArticleHead>
   );

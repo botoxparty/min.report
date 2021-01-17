@@ -5,7 +5,7 @@ import { Link, useHistory } from 'react-router-dom';
 import logo from '../assets/MinorityReport_Logo.png';
 import useWindowSize from '../hooks/useWindowResize';
 import { formatDate } from '../helpers/helpers';
-import { WordpressPost } from '../services/wordpress';
+import { PostCoauthor, WordpressPost } from '../services/wordpress';
 import Coauthors from './Coauthors';
 
 const SCMarquee = styled.header<any>`
@@ -168,7 +168,7 @@ function Marquee({ currentPost, authors }: Props) {
           ) : <div className="author-list">
             <select defaultValue="none" onChange={e => history.push(`/author/${e.target.value}`)}>
               <option disabled value="none">Reporters: </option>
-              {authors.map((author: any) => <option key={author.slug} value={author.slug}>{author.name}</option>)}
+              {authors.map((author: PostCoauthor) => <option key={author.name} value={author.name}>{author.description}</option>)}
             </select>
             </div>}
         </div>

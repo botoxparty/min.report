@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import media from '../../media';
 import React from 'react';
-import Header from '../Header';
+import Logo from '../Logo';
 import { Link } from 'react-router-dom';
 import { formatDate } from '../../helpers/helpers';
 import { PostListItemProps } from './PostListItem';
@@ -49,6 +49,7 @@ const SCFeaturedPost = styled.article`
     h1 {
       font-size: 3em;
       margin-bottom: 0.25em;
+      margin-top: 2rem;
     }
     .author {
       margin-bottom: 1em;
@@ -71,7 +72,7 @@ const FeaturedPost = ({ post, goToPost }: PostListItemProps) => (
   <SCFeaturedPost>
     <div className='site-header-featured-post'>
       <div className='header-wrapper'>
-        <Header />
+        <Logo link={post.permalink} />
         <div>
           <Link
             to={post.permalink}

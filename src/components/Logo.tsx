@@ -12,9 +12,13 @@ const SCHeader = styled(Link)`
   }
 `;
 
-function Header() {
+interface Props {
+  link?: string;
+}
+
+function Header({link}: Props) {
   return (
-    <SCHeader to={'/'}>
+    <SCHeader to={link || '/'}>
       <img src={logo} alt='Minority Report Crest by Hana Earles' />
     </SCHeader>
   );

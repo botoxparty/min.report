@@ -2,6 +2,7 @@ import { css } from 'styled-components';
 import media from '../media';
 
 export default css`
+
   main {
     display: block;
   }
@@ -263,6 +264,9 @@ export default css`
     border-left: 5px solid #bbb;
     margin-left: 1px;
     padding: 12px 1.5rem;
+    p {
+      line-height: 1.4;
+    }
   }
   [dir='rtl'] blockquote {
     border-left: 0;

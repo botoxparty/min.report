@@ -19,7 +19,6 @@ import Coauthors from './Coauthors';
 var ReactGA = require('react-ga');
 
 const SCPost = styled.section`
-  ${gutenbergCSS}
   min-height: 100vh;
   max-width: 1050px;
   margin: auto;
@@ -39,20 +38,10 @@ const SCPost = styled.section`
       display: none;
     }
   }
-  blockquote {
-    p {
-      line-height: 1.4;
-    }
-  }
-
-  .fn-active {
-    background: greenyellow !important;
-  }
-
   .article-content {
-    padding: 3em 1em 1em 1em;
+    ${gutenbergCSS}
+    padding: 2em 1em 1em 1em;
     font-size: 1.25em;
-
     ${customGutenbergCSS}
   }
 `;
@@ -60,9 +49,10 @@ const SCPost = styled.section`
 interface PostProps extends RouteComponentProps {
   post?: WordpressPost;
   setPost: Function;
+  preview?: boolean;
 }
 
-function Post({ post, setPost, history, location }: PostProps) {
+function Post({ post, setPost, history, location, preview, match }: PostProps) {
   const [, setLoaded] = React.useState(true);
   const [citations, setCitations] = React.useState([]);
   const { slug } = useParams<any>();
@@ -105,14 +95,12 @@ function Post({ post, setPost, history, location }: PostProps) {
       watchFootnoteScroll(setCitations);
     }
 
-    const search = qs.parse(location.search);
-
-    if (search.preview_id) {
-      loadPreview(search.preview_id as string);
+    if (preview) {
+      loadPreview((match.params as any).id);
     } else {
       loadContent();
     }
-  }, [slug, location.search]);
+  }, [slug]);
 
   const metaTags: MetaTagsConfig = post
     ? {
@@ -141,13 +129,7 @@ function Post({ post, setPost, history, location }: PostProps) {
   return (
       <SCPost>
         {!isFullscreen && (
-          <ArticleHead
-            title={
-              <h1
-                dangerouslySetInnerHTML={{ __html: post.title?.rendered }}
-              ></h1>
-            }
-          >
+          <ArticleHead title={post.title?.rendered}>
             {post.author_x.slug !== 'thinktank' && (
               <p className='author'>
                 by{' '}<Coauthors coauthors={post.coauthors} />

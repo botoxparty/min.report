@@ -5,8 +5,6 @@ import logo from '../assets/MinorityReport_Logo.jpg';
 import useMetaTags from 'react-metatags-hook';
 import PostList from './PostList';
 import useScrollToTop from '../hooks/useScrollToTop';
-import { Redirect } from 'react-router-dom';
-import qs from 'query-string';
 var ReactGA = require('react-ga');
 
 const SCHomepage = styled.section`
@@ -37,11 +35,6 @@ function Homepage({posts, setPost, mixes, location}: any) {
     React.useEffect(() => {
       ReactGA.pageview(window.location.pathname);
     }, [])
-
-  const query = qs.parse(location.search);
-  if (query.preview) {
-    return <Redirect to={`preview/preview/?preview_id=${query.p}`}></Redirect>;
-  }
 
   if(!posts.length) {
     return <SCHomepage></SCHomepage>;

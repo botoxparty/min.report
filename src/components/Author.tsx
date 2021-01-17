@@ -8,7 +8,7 @@ import useMetaTags from 'react-metatags-hook';
 import { useParams } from 'react-router-dom';
 import wordpress from '../services/wordpress';
 import PostList from './PostList';
-import Header from './Header';
+import Logo from './Logo';
 import useScrollToTop from '../hooks/useScrollToTop';
 var ReactGA = require('react-ga');
 
@@ -85,7 +85,7 @@ function Author({posts, setPost, setPosts, mixes}: any) {
   return (
     <SCAuthor>
       <SCAuthorTitle>
-        <Header />
+        <Logo />
         <h1>{posts[0].author_x.name}</h1>
       </SCAuthorTitle>
       <PostList posts={posts} setPost={setPost} mixes={[]}/>
