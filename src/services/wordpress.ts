@@ -2,6 +2,12 @@ import http from './http';
 
 const WP_URL = 'https://admin.min.report/wp-json';
 
+interface UserSignup {
+  username: string;
+  email: string;
+  password: string;
+}
+
 const getMixes = () =>
   http.get(`${WP_URL}/wp/v2/mix?per_page=20`);
 
@@ -9,7 +15,7 @@ const getPosts = (page: number) =>
   http.get(`${WP_URL}/wp/v2/posts?per_page=10&page=${page}`);
 
 const getPostsByAuthor = (author: string) =>
-  http.get(`${WP_URL}/wp/v2/author_x?slug=${author}`);
+  http.get(`${WP_URL}/wp/v2/posts?_embed=true&filter[author_name]=${author}`);
 
 const getPost = (path: string) =>
   http.get(`${WP_URL}/wp/v2/post_x?slug=${path}`);
@@ -17,14 +23,25 @@ const getPost = (path: string) =>
 const getPostPreview = (id: string) =>
   http.get(`${WP_URL}/wp/v2/preview_x?preview_id=${id}`);
 
+const createUser = (user: UserSignup) =>
+  http.post(`${WP_URL}/wp-json/wp/v2/users/register`, user);
+
+const login = (id: string) =>
+  http.get(`${WP_URL}/wp/v2/preview_x?preview_id=${id}`);
+
+const resetPassword = (user_login: string) =>
+  http.post(`${WP_URL}/wp-json/wp/v2/users/lost-password`, { user_login });
+
 export default {
+  createUser,
+  login,
+  resetPassword,
   getPosts,
   getPost,
   getMixes,
   getPostsByAuthor,
   getPostPreview,
 };
-
 interface WordpressBasic {
   id: number;
   date: string;
@@ -54,12 +71,18 @@ interface WordpressBasic {
   };
 }
 
+export interface PostCoauthor {
+  name: string;
+  description: string;
+}
 export interface WordpressPost extends WordpressBasic {
+  coauthors: [PostCoauthor];
   author_x: {
     id: number;
     name: string;
     slug: string;
   };
+  permalink: string;
   categories: Array<number>;
   comment_status: string;
   format: string;

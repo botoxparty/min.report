@@ -13,7 +13,8 @@ import qs from 'query-string';
 //@ts-ignore
 import InnerHTML from 'dangerously-set-html-content';
 import ArticleHead from './ArticleHead';
-import Footer from './Footer';
+import Comments from './Comments';
+import Coauthors from './Coauthors';
 
 var ReactGA = require('react-ga');
 
@@ -50,7 +51,7 @@ const SCPost = styled.section`
 
   .article-content {
     padding: 3em 1em 1em 1em;
-    font-size: 1.1em;
+    font-size: 1.25em;
 
     ${customGutenbergCSS}
   }
@@ -149,11 +150,7 @@ function Post({ post, setPost, history, location }: PostProps) {
           >
             {post.author_x.slug !== 'thinktank' && (
               <p className='author'>
-                {' '}
-                by{' '}
-                <Link to={`/author/${post.author_x.slug}`}>
-                  {post.author_x.name}
-                </Link>
+                by{' '}<Coauthors coauthors={post.coauthors} />
               </p>
             )}
             <time dateTime={post.date_gmt.split('T')[0]}>
@@ -166,6 +163,7 @@ function Post({ post, setPost, history, location }: PostProps) {
           html={post.content.rendered}
         />
         <Footnotes citations={citations} />
+        {/* <Comments /> */}
       </SCPost>
   );
 }

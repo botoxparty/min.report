@@ -4,6 +4,7 @@ import media from '../../media';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { formatDate } from '../../helpers/helpers';
+import Coauthors from '../Coauthors';
 
 export interface PostListItemProps {
   post: WordpressPost;
@@ -60,7 +61,7 @@ const PostListItem = ({ post, goToPost }: PostListItemProps) => (
   <SCPostListItem>
     <div className='title'>
       <Link
-        to={`/${post.author_x.slug}/${post.slug}`}
+        to={post.permalink}
         onClick={() => goToPost(post)}
       >
         <h2 dangerouslySetInnerHTML={{ __html: post.title.rendered }}></h2>
@@ -68,12 +69,7 @@ const PostListItem = ({ post, goToPost }: PostListItemProps) => (
       <span>
         {post.author_x.slug !== 'thinktank' && (
           <>
-            {' '}
-            by{' '}
-            <Link to={`/author/${post.author_x.slug}`}>
-              {post.author_x.name}
-            </Link>
-            {' - '}
+            by <Coauthors coauthors={post.coauthors} />{' - '}
           </>
         )}
         <time dateTime={post.date_gmt.split('T')[0]}>
@@ -81,7 +77,7 @@ const PostListItem = ({ post, goToPost }: PostListItemProps) => (
         </time>
       </span>
       <Link
-        to={`/${post.author_x.slug}/${post.slug}`}
+        to={post.permalink}
         onClick={() => goToPost(post)}
       >
         <p
@@ -92,12 +88,12 @@ const PostListItem = ({ post, goToPost }: PostListItemProps) => (
     </div>
     <Link
       className='image'
-      to={`/${post.author_x.slug}/${post.slug}`}
+      to={post.permalink}
       onClick={() => goToPost(post)}
     >
       <img
         src={post.featured_img_x.thumb}
-        alt={`${post.title.rendered} by ${post.author_x.name}`}
+        alt={`${post.title.rendered}`}
       />
     </Link>
   </SCPostListItem>

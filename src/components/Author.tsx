@@ -29,7 +29,6 @@ const SCAuthorTitle = styled.div`
 
 
 function Author({posts, setPost, setPosts, mixes}: any) {
-    console.log({posts})
     const [loaded, setLoaded] = React.useState(false);
     const { author } = useParams<any>();
 

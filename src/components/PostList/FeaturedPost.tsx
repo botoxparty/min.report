@@ -5,6 +5,7 @@ import Header from '../Header';
 import { Link } from 'react-router-dom';
 import { formatDate } from '../../helpers/helpers';
 import { PostListItemProps } from './PostListItem';
+import Coauthors from '../Coauthors';
 
 const SCFeaturedPost = styled.article`
   border-bottom: 1px dotted grey;
@@ -73,17 +74,14 @@ const FeaturedPost = ({ post, goToPost }: PostListItemProps) => (
         <Header />
         <div>
           <Link
-            to={`/${post.author_x.slug}/${post.slug}`}
+            to={post.permalink}
             onClick={() => goToPost(post)}
           >
             <h1 dangerouslySetInnerHTML={{ __html: post.title.rendered }}></h1>
           </Link>
           {post.author_x.slug !== 'thinktank' && (
             <span className='author'>
-              by{' '}
-              <Link to={`/author/${post.author_x.slug}`}>
-                {post.author_x.name}
-              </Link>
+              by{' '}<Coauthors coauthors={post.coauthors} />
             </span>
           )}
           <time dateTime={post.date_gmt.split('T')[0]}>
@@ -92,17 +90,17 @@ const FeaturedPost = ({ post, goToPost }: PostListItemProps) => (
         </div>
       </div>
       <Link
-        to={`/${post.author_x.slug}/${post.slug}`}
+        to={post.permalink}
         onClick={() => goToPost(post)}
       >
         <img
           src={post.featured_img_x.thumb}
-          alt={`${post.title.rendered} by ${post.author_x.name}`}
+          alt={`${post.title.rendered}`}
         />
       </Link>
     </div>
     <Link
-      to={`/${post.author_x.slug}/${post.slug}`}
+      to={post.permalink}
       onClick={() => goToPost(post)}
     >
       <p

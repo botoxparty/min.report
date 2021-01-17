@@ -488,7 +488,7 @@ export const citationCSS = css`
   }
 
   > p {
-    line-height: 1.4;
+    line-height: 1.5;
     margin-bottom: 2.9rem;
     position: relative;
     z-index: 99;

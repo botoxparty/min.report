@@ -55,14 +55,14 @@ function App() {
   }, []);
 
 
-  const authors = posts.map(p => p.author_x)
-  const uniqueAuthors = Array.from(new Set(authors.map(a => a.slug))).filter(u => u !== "thinktank");
+  const authors = posts.map(p => p.coauthors).flat();
+  const uniqueAuthors = Array.from(new Set(authors.map(a => a.name))).filter(u => u !== "thinktank");
 
   return (
     <Main>
       <Route
         path='/'
-        render={(props) => <Marquee currentPost={currentPost} authors={uniqueAuthors.map(u => authors.find(a => a.slug === u))} {...props} />}
+        render={(props) => <Marquee currentPost={currentPost} authors={uniqueAuthors.map(u => authors.find(a => a.name === u))} {...props} />}
       ></Route>
       <Switch>
         <Route

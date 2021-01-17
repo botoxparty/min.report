@@ -5,6 +5,8 @@ import { Link, useHistory } from 'react-router-dom';
 import logo from '../assets/MinorityReport_Logo.png';
 import useWindowSize from '../hooks/useWindowResize';
 import { formatDate } from '../helpers/helpers';
+import { WordpressPost } from '../services/wordpress';
+import Coauthors from './Coauthors';
 
 const SCMarquee = styled.header<any>`
   top: 0;
@@ -87,7 +89,12 @@ const Disclaimer = styled.div`
   justify-content: center;
 `;
 
-function Marquee({ currentPost, authors }: any) {
+interface Props {
+  currentPost?: WordpressPost;
+  authors: Array<any>;
+}
+
+function Marquee({ currentPost, authors }: Props) {
   const [showOnScroll, setShowOnScroll] = React.useState(false);
   const marqueeRef = React.useRef(null);
   const history = useHistory();
@@ -152,10 +159,8 @@ function Marquee({ currentPost, authors }: any) {
               <h1
                 dangerouslySetInnerHTML={{ __html: currentPost.title.rendered }}
               ></h1>
-              <Link to={`/author/${currentPost.author_x.slug}`}>
-                {currentPost.author_x.name}
-              </Link>{' '}
-              -{' '}
+              <Coauthors coauthors={currentPost.coauthors} />
+              {' '}-{' '}
               <time dateTime={currentPost.date_gmt.split('T')[0]}>
                 {formatDate(currentPost.date_gmt)}
               </time>
