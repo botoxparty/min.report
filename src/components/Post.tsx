@@ -1,7 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import wordpress, { WordpressPost } from '../services/wordpress';
-import { useParams, Link, RouteComponentProps } from 'react-router-dom';
+import { useParams, RouteComponentProps } from 'react-router-dom';
 import useScrollToTop from '../hooks/useScrollToTop';
 import useMetaTags from 'react-metatags-hook';
 import { MetaTagsConfig } from 'react-metatags-hook/dist/types';
@@ -9,11 +9,10 @@ import watchFootnoteScroll from '../hooks/watchFootnoteScroll';
 import Footnotes from './Footnotes';
 import { decode, formatDate } from '../helpers/helpers';
 import gutenbergCSS, { customGutenbergCSS } from './gutenbergCSS';
-import qs from 'query-string';
 //@ts-ignore
 import InnerHTML from 'dangerously-set-html-content';
 import ArticleHead from './ArticleHead';
-import Comments from './Comments';
+// import Comments from './Comments';
 import Coauthors from './Coauthors';
 
 var ReactGA = require('react-ga');

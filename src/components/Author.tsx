@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import logo from '../assets/MinorityReport_Logo.jpg';
 import useMetaTags from 'react-metatags-hook';
 import { useParams } from 'react-router-dom';
-import wordpress from '../services/wordpress';
+import wordpress, { WordpressMix, WordpressPost } from '../services/wordpress';
 import PostList from './PostList';
 import Logo from './Logo';
 import useScrollToTop from '../hooks/useScrollToTop';
@@ -27,15 +27,20 @@ const SCAuthorTitle = styled.div`
   }
 `;
 
+interface Props {
+  posts: WordpressPost[];
+  setPost: Function;
+  setPosts: Function;
+  mixes: WordpressMix[];
+}
 
-function Author({posts, setPost, setPosts, mixes}: any) {
+function Author({posts, setPost, setPosts, mixes}: Props) {
     const [loaded, setLoaded] = React.useState(false);
     const { author } = useParams<any>();
-
-
+    const authorName = posts[0]?.coauthors.find(a => a.name === author)?.description;
     const title =
     author && posts[0]
-      ? `Author: ${posts[0].author_x.name}`
+      ? `Author: ${authorName}`
       : `Minority Report`;
       useScrollToTop();
 
@@ -86,7 +91,7 @@ function Author({posts, setPost, setPosts, mixes}: any) {
     <SCAuthor>
       <SCAuthorTitle>
         <Logo />
-        <h1>{posts[0].author_x.name}</h1>
+        <h1>{authorName}</h1>
       </SCAuthorTitle>
       <PostList posts={posts} setPost={setPost} mixes={[]}/>
     </SCAuthor>
