@@ -496,8 +496,10 @@ export const citationCSS = css`
     margin-bottom: 2.9rem;
     position: relative;
     z-index: 99;
-    + blockquote {
-      margin-top: -2.9em;
+  }
+
+  > blockquote {
+      margin-top: -2.5em;
       padding-left: 4em;
       border: 0;
       color: #202267;
@@ -511,7 +513,6 @@ export const citationCSS = css`
         margin-right: 0;
       }
     }
-  }
 
   .wp-block-lazyblock-footnotes {
     font-size: 0.75em;
