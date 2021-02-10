@@ -406,6 +406,8 @@ export default css`
 const videoPlayerCSS = css`
   .wp-block-embed.is-type-video {
     padding-bottom: 1rem;
+    z-index: 999;
+    position: relative;
     ${media.max.large} {
       margin: 0;
     }
