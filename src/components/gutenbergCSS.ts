@@ -264,6 +264,7 @@ export default css`
     border-left: 5px solid #bbb;
     margin-left: 1px;
     padding: 12px 1.5rem;
+    white-space: break-spaces;
     p {
       line-height: 1.4;
     }
