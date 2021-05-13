@@ -17,9 +17,12 @@ import Coauthors from './Coauthors';
 
 var ReactGA = require('react-ga');
 
-const SCPost = styled.section`
+interface SCPostProps {
+  isFullscreen: boolean;
+}
+const SCPost = styled.section<SCPostProps>`
   min-height: 100vh;
-  max-width: 1050px;
+  max-width: ${({ isFullscreen }) => (isFullscreen ? '100%' : '1050px')};
   margin: auto;
   .full-screen video {
     top: 0;
@@ -126,26 +129,26 @@ function Post({ post, setPost, history, location, preview, match }: PostProps) {
   const isFullscreen = !!document.querySelector('.full-screen');
 
   return (
-      <SCPost>
-        {!isFullscreen && (
-          <ArticleHead title={post.title?.rendered}>
-            {post.author_x.slug !== 'thinktank' && (
-              <p className='author'>
-                by{' '}<Coauthors coauthors={post.coauthors} />
-              </p>
-            )}
-            <time dateTime={post.date_gmt.split('T')[0]}>
-              {formatDate(post.date_gmt)}
-            </time>
-          </ArticleHead>
-        )}
-        <InnerHTML
-          className='article-content gutenberg-styles'
-          html={post.content.rendered}
-        />
-        <Footnotes citations={citations} />
-        {/* <Comments /> */}
-      </SCPost>
+    <SCPost isFullscreen={isFullscreen}>
+      {!isFullscreen && (
+        <ArticleHead title={post.title?.rendered}>
+          {post.author_x.slug !== 'thinktank' && (
+            <p className='author'>
+              by <Coauthors coauthors={post.coauthors} />
+            </p>
+          )}
+          <time dateTime={post.date_gmt.split('T')[0]}>
+            {formatDate(post.date_gmt)}
+          </time>
+        </ArticleHead>
+      )}
+      <InnerHTML
+        className='article-content gutenberg-styles'
+        html={post.content.rendered}
+      />
+      <Footnotes citations={citations} />
+      {/* <Comments /> */}
+    </SCPost>
   );
 }
 
