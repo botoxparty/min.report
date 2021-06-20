@@ -10,6 +10,8 @@ import Error from './components/Error';
 import MailingListSignup from './components/MailingListSignup';
 import Homepage from './components/Homepage';
 import Author from './components/Author';
+import OrderStatus from './components/ShoppingModule/OrderStatus';
+import Product from './components/ShoppingModule/Product';
 
 const PageBottomMargin = styled.div`
   height: 10em;
@@ -54,19 +56,25 @@ function App() {
     loadMixes();
   }, []);
 
+  const authors = posts.map((p) => p.coauthors).flat();
 
-  const authors = posts.map(p => p.coauthors).flat();
-
-  const uniqueAuthors = Array.from(new Set(authors.map(a => a.name))).filter(u => u !== "thinktank").sort();
+  const uniqueAuthors = Array.from(new Set(authors.map((a) => a.name)))
+    .filter((u) => u !== 'thinktank')
+    .sort();
 
   return (
     <Main>
       <Route
         path='/'
-        render={(props) => <Marquee
-          currentPost={currentPost}
-          authors={uniqueAuthors.map(u => authors.find(a => a.name === u))}
-          {...props} />}
+        render={(props) => (
+          <Marquee
+            currentPost={currentPost}
+            authors={uniqueAuthors.map((u) =>
+              authors.find((a) => a.name === u)
+            )}
+            {...props}
+          />
+        )}
       ></Route>
       <Switch>
         <Route
@@ -74,11 +82,11 @@ function App() {
           path='/'
           render={(props) => (
             <Homepage
-            setPosts={setPosts}
-            posts={posts}
-            setPost={setCurrentPost}
-            mixes={mixes}
-            {...props}
+              setPosts={setPosts}
+              posts={posts}
+              setPost={setCurrentPost}
+              mixes={mixes}
+              {...props}
             />
           )}
         />
@@ -96,11 +104,36 @@ function App() {
           )}
         />
         <Route
-        exact
-        path='/preview/:id'
-        render={(props) => <Post {...props} post={currentPost} preview={true} setPost={setCurrentPost}  />
-        }
+          exact
+          path='/preview/:id'
+          render={(props) => (
+            <Post
+              {...props}
+              post={currentPost}
+              preview={true}
+              setPost={setCurrentPost}
+            />
+          )}
         ></Route>
+
+          <Route
+          exact
+          path='/product/:slug'
+          render={(props) => (
+            <Product
+              {...props}
+              // post={currentPost}
+              // preview={true}
+              // setPost={setCurrentPost}
+            />
+          )}
+        ></Route>
+
+        <Route
+          exact
+          path='/order/:status'
+          render={(props) => <OrderStatus {...props} />}
+        />
 
         <Route
           exact
@@ -109,6 +142,7 @@ function App() {
             <Post {...props} post={currentPost} setPost={setCurrentPost} />
           )}
         />
+
         <Route exact path='/404' render={(props) => <Error {...props} />} />
       </Switch>
       <PageBottomMargin />

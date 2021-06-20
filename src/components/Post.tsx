@@ -147,7 +147,6 @@ function Post({ post, setPost, history, location, preview, match }: PostProps) {
         html={post.content.rendered}
       />
       <Footnotes citations={citations} />
-      {/* <Comments /> */}
     </SCPost>
   );
 }

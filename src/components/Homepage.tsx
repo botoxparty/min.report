@@ -5,6 +5,7 @@ import logo from '../assets/MinorityReport_Logo.jpg';
 import useMetaTags from 'react-metatags-hook';
 import PostList from './PostList';
 import useScrollToTop from '../hooks/useScrollToTop';
+import FeaturedProductsList from './ShoppingModule/FeaturedProductsList';
 var ReactGA = require('react-ga');
 
 const SCHomepage = styled.section`
@@ -13,36 +14,41 @@ const SCHomepage = styled.section`
   min-height: 100vh;
 `;
 
-function Homepage({posts, setPost, mixes, location}: any) {
-    useScrollToTop();
-    const title = "Minority Report";
-    useMetaTags(
-      {
-        title: title + ' - min.report',
-        openGraph: {
-          title,
-          image: `${window.location.protocol}//${window.location.host}${logo}`,
-          site_name: title,
-        },
-        twitter: {
-          card: 'summary',
-          title: title,
-        },
+function Homepage({ posts, setPost, mixes, location }: any) {
+  useScrollToTop();
+  const title = 'Minority Report';
+  useMetaTags(
+    {
+      title: title + ' - min.report',
+      openGraph: {
+        title,
+        image: `${window.location.protocol}//${window.location.host}${logo}`,
+        site_name: title,
       },
-      [posts.length]
-    );
+      twitter: {
+        card: 'summary',
+        title: title,
+      },
+    },
+    [posts.length]
+  );
 
-    React.useEffect(() => {
-      ReactGA.pageview(window.location.pathname);
-    }, [])
+  React.useEffect(() => {
+    ReactGA.pageview(window.location.pathname);
+  }, []);
 
-  if(!posts.length) {
+  if (!posts.length) {
     return <SCHomepage></SCHomepage>;
   }
   return (
     <SCHomepage>
-        <FeaturedPost post={posts[0]} goToPost={setPost}></FeaturedPost>
-        <PostList posts={posts.slice(1,posts.length)} setPost={setPost} mixes={mixes} />
+      <FeaturedProductsList></FeaturedProductsList>
+      <FeaturedPost post={posts[0]} goToPost={setPost}></FeaturedPost>
+      <PostList
+        posts={posts.slice(1, posts.length)}
+        setPost={setPost}
+        mixes={mixes}
+      />
     </SCHomepage>
   );
 }

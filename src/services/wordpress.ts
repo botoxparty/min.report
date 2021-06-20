@@ -8,8 +8,9 @@ interface UserSignup {
   password: string;
 }
 
-const getMixes = () =>
-  http.get(`${WP_URL}/wp/v2/mix?per_page=20`);
+const getMixes = () => http.get(`${WP_URL}/wp/v2/mix?per_page=20`);
+
+const getProducts = () => http.get(`${WP_URL}/wp/v2/product`);
 
 const getPosts = (page: number) =>
   http.get(`${WP_URL}/wp/v2/posts?per_page=10&page=${page}`);
@@ -19,6 +20,9 @@ const getPostsByAuthor = (author: string) =>
 
 const getPost = (path: string) =>
   http.get(`${WP_URL}/wp/v2/post_x?slug=${path}`);
+
+const getProduct = (path: string) =>
+  http.get(`${WP_URL}/wp/v2/product_x?slug=${path}`);
 
 const getPostPreview = (id: string) =>
   http.get(`${WP_URL}/wp/v2/preview_x?preview_id=${id}`);
@@ -38,6 +42,8 @@ export default {
   resetPassword,
   getPosts,
   getPost,
+  getProducts,
+  getProduct,
   getMixes,
   getPostsByAuthor,
   getPostPreview,
@@ -97,9 +103,32 @@ export interface WordpressPost extends WordpressBasic {
   };
 }
 
-
 export interface WordpressMix extends WordpressBasic {
-    linked_post: any;
-    soundcloud_url: string;
-    dj: any;
+  linked_post: any;
+  soundcloud_url: string;
+  dj: any;
+}
+
+export interface WordpressProduct extends WordpressBasic {
+  excerpt: {
+    rendered: string;
+  };
+  content: {
+    rendered: string;
+  };
+  permalink: string;
+  stripe: {
+    price: string;
+    currency: string;
+    price_id: string;
+    prod_id: string;
+    preorder: boolean;
+    shipping_options: Array<{
+      option: {
+        label: string;
+        price: string;
+        stripe_shipping_id: string;
+      };
+    }>;
+  };
 }

@@ -7,6 +7,7 @@ import { formatDate } from '../../helpers/helpers';
 import { PostListItemProps } from './PostListItem';
 import Coauthors from '../Coauthors';
 
+
 const SCFeaturedPost = styled.article`
   border-bottom: 1px dotted grey;
   margin-top: 2em;
@@ -67,6 +68,8 @@ const SCFeaturedPost = styled.article`
     font-size: 1.25em;
   }
 `;
+
+
 
 const FeaturedPost = ({ post, goToPost }: PostListItemProps) => (
   <SCFeaturedPost>

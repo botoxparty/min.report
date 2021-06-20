@@ -16,7 +16,7 @@ function Error({}: RouteComponentProps) {
   useMetaTags(metaTags);
   return (
     <SCError>
-      <ArticleHead title={<h1>This page does not exist...</h1>}>
+      <ArticleHead title={"This page does not exist..."}>
         <Link to='/'>Go back to the home page</Link>
       </ArticleHead>
     </SCError>
