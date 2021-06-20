@@ -25,23 +25,27 @@ const ContentWrapper = styled.div`
     flex-direction: column;
   }
   h1 {
-      font-size: 2rem;
+    font-size: 2rem;
   }
   div {
     padding-left: 1rem;
+    ${media.max.medium} {
+      padding-right: 1rem;
+    }
   }
   .buy {
-      display: flex;
-      align-items: center;
-      button {
-          font-size: 1.5rem;
-          font-weight: bold;
-          height: 100%;
-      }
+    display: flex;
+    align-items: center;
+    button {
+      font-size: 1.5rem;
+      font-weight: bold;
+      height: 100%;
+    }
   }
 `;
 
-const buyOrPreorder = (product: WordpressProduct) => product.stripe.preorder ? 'Preorder' : 'Buy now'
+const buyOrPreorder = (product: WordpressProduct) =>
+  product.stripe.preorder ? 'Preorder' : 'Buy now';
 
 function FeaturedProductsList() {
   const [products, setProducts] = useState<Array<WordpressProduct>>([]);
@@ -62,27 +66,39 @@ function FeaturedProductsList() {
       {products.map((product) => (
         <div>
           <ContentWrapper>
-          <Link to={product.permalink}>
-            <ProductImage
-              alt={product.yoast_title}
-              src={product.featured_img_x.thumb}
-            />
-            </Link>
             <Link to={product.permalink}>
-              <div>
+              <ProductImage
+                alt={product.yoast_title}
+                src={product.featured_img_x.thumb}
+              />
+            </Link>
+
+            <div>
+              <Link to={product.permalink}>
                 <h1
                   dangerouslySetInnerHTML={{ __html: product.title.rendered }}
                 ></h1>
-                <h2 className="buy"><button onClick={() => setShowModal(true)}>{buyOrPreorder(product)} - ${product.stripe.price} {product.stripe.currency}</button>
-                </h2>
+              </Link>
+              <h2 className='buy'>
+                <button onClick={() => setShowModal(true)}>
+                  {buyOrPreorder(product)} - ${product.stripe.price}{' '}
+                  {product.stripe.currency}
+                </button>
+              </h2>
+              <Link to={product.permalink}>
                 <p
                   className='excerpt'
                   dangerouslySetInnerHTML={{ __html: product.excerpt.rendered }}
                 ></p>
-              </div>
-            </Link>
+              </Link>
+            </div>
           </ContentWrapper>
-          {showModal && <BuyNowModal product={product} onClose={() => setShowModal(false)} />}
+          {showModal && (
+            <BuyNowModal
+              product={product}
+              onClose={() => setShowModal(false)}
+            />
+          )}
         </div>
       ))}
     </SCFeaturedProductsList>
